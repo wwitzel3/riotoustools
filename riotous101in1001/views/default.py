@@ -1,5 +1,6 @@
-def view_root(context, request):
-    return {'items':list(context), 'project':'riotous101in1001'}
+from pyramid.response import Response
+from pyramid.view import view_config
 
-def view_model(context, request):
-    return {'item':context, 'project':'riotous101in1001'}
+@view_config(route_name='index', renderer='index.mako')
+def index(request):
+    return dict()
