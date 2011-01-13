@@ -11,6 +11,7 @@
 <title>riotousliving.com - ${self.title()}</title>
 
 <link href="/static/style.css" rel="stylesheet" type="text/css" /> 
+<link href="/static/weareawesome.css" rel="stylesheet" type="text/css" /> 
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
 <script type="text/javascript" src="/static/javascript.js"></script>

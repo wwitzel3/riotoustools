@@ -1,0 +1,53 @@
+ol#day-zero-list p {
+    font-family: verdana;
+    font-family: verdana;
+    font-weight: normal;
+    color: #000;
+}
+
+ol#day-zero-list li {
+    font-family: verdana;
+    border: 1px solid #E5E5E5;
+    margin-bottom: 5px;
+    background-color: lightyellow;
+}
+
+.day-zero-item-container {
+    padding: 1px 10px 1px 10px;
+}
+
+.day-zero-item-buttons {
+    display: inline-block;
+}
+
+.day-zero-item-text {
+    display: inline-block;
+}
+
+.item-complete {
+    text-decoration: line-through;
+}
+
+.day-zero-item-longtext {
+    display: none;
+}
+
+.day-zero-item-label {
+    font-size: 10px;
+    font-style: italic;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.day-zero-item-timestamp {
+    font-size: 10px;
+    font-style: italic;
+    display: inline-block;
+}
+
+.button {
+    width: 16px;
+    height: 16px;
+    margin: 0px;
+    padding: 0px;
+}
