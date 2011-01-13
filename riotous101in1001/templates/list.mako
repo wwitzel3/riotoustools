@@ -1,1 +1,3 @@
-<p>list.mako</p>
+<%inherit file="base.mako"/>
+
+list.mako

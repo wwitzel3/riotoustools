@@ -4,7 +4,6 @@ from pyramid.config import Configurator
 from sqlalchemy import engine_from_config
 
 from riotous101in1001.models import initialize_sql, DBSession
-from riotous101in1001.models.mymodel import MyModel
 
 def main(global_config, **settings):
     """ This function returns a WSGI application.

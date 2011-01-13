@@ -12,7 +12,7 @@ class DayZeroList(Base):
     __tablename__ = 'dayzerolists'
     
     id = Column(Integer, primary_key=True)
-    owner_id = Column(Intger, ForeignKey('users.id'))
+    owner_id = Column(Integer, ForeignKey('users.id'))
     
     name = Column(String, nullable=False)
     start_at = Column(Date, default=datetime.datetime.now())
