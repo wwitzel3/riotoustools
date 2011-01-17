@@ -13,12 +13,18 @@ $('input.button.accept').live('click', function(o) {
 
 $('input.button.edit').live('click', function(o) {
     console.log(o);
-   var item_description = $(o.target).parent('div').parent('div').children('div.day-zero-item-longtext');
-   item_description.slideToggle("slow");
+    var item_description = $(o.target).parent('div').parent('div').children('div.day-zero-item-longtext');
+    item_description.slideToggle("slow");
 });
 
 $('.editable').live('dblclick', function(o) {
-   var self = $(o.target);
-   self.value = self.text();
-   self.html('<input type="text" name="item-text" value="'+ self.value + '" /><button>Save</button>');
+    var self = $(o.target);
+    self.value = self.text();
+    self.html('<input type="text" name="item-text" value="'+ self.value + '" /><button>Save</button>');
+});
+
+$('.multi-editable').live('dblclick', function(o) {
+    var self = $(o.target);
+    self.value = self.text();
+    self.html('<textarea name="item-description">' + self.value + '</textarea><button>Save</button><button>Cancel</button>');
 });
