@@ -3,10 +3,10 @@
 <div id="center-content"> 
 <h3>Viewing ${dayzero_list.name}'s 101 in 1001 list</h3>
 <ol id="day-zero-list">
-    % for i in xrange(1,102):
+    % for item in dayzero_list.items:
     <li class="day-zero-item">
         <div class="day-zero-item-container">
-            <p class="day-zero-item-text editable ${'item-complete' if i==3 else ''}">Go swimming</p>
+            <p class="day-zero-item-text editable ${'item-complete' if i==3 else ''}">${item.description}</p>
             <div class="day-zero-item-buttons">
                 <input class="button edit" type="image" src="/static/icons/edit_desc.png" />
                 <input class="button accept" type="image" src="/static/icons/accept.png" />
