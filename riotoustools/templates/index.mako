@@ -2,4 +2,5 @@
 
 <div id="center-content"> 
 index.mako
+${logged_in}
 </div>

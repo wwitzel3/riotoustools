@@ -13,6 +13,9 @@ requires = [
     'sqlalchemy',
     'zope.sqlalchemy',
     'WebError',
+    'minimock',
+    'nose',
+    'mako',
     ]
 
 if sys.version_info[:3] < (2,5,0):

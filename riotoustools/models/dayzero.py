@@ -22,6 +22,7 @@ class DayZeroList(Base):
     end_at = Column(Date, default=datetime.datetime.now() + datetime.timedelta(days=1001))
     
     items = relation('DayZeroItem', backref='dayzerolist')
+
     
 class DayZeroItem(Base):
     __tablename__ = 'dayzeroitems'

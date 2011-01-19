@@ -1,7 +1,10 @@
+from pyramid.security import Allow, Deny
+from pyramid.security import Authenticated, Everyone
+from pyramid.security import ALL_PERMISSIONS
+
 import ordereddict
 
 from riotoustools.models import DBSession
-
 from riotoustools.models.dayzero import DayZeroList
 from riotoustools.models.lifecal import LifeCal
 from riotoustools.models.user import User
@@ -15,12 +18,17 @@ class Root(ordereddict.OrderedDict):
     __name__ = None
     __parent__ = None
     
+    __acl__ = [
+        (Allow, Authenticated, ALL_PERMISSIONS),
+        (Deny, Everyone, ALL_PERMISSIONS),
+    ]
+    
     def __init__(self, request):
         ordereddict.OrderedDict.__init__(self)
         self.request = request
         
-        self['dayzero'] = _owned(ModelContainer(cls=DayZeroList), 'dayzero', self)
-        self['lifecal'] = _owned(ModelContainer(cls=LifeCal), 'lifecal', self)
+        self['dayzero'] = _owned(DayZeroContainer(cls=DayZeroList), 'dayzero', self)
+        self['lifecal'] = _owned(LifeCalContainer(cls=LifeCal), 'lifecal', self)
         self['users'] = _owned(ModelContainer(cls=User), 'users', self)
         
 class ModelContainer(object):
@@ -33,5 +41,11 @@ class ModelContainer(object):
     def __iter__(self):
         return (_owned(x, str(x.id), self) for x in DBSession().query(self.cls))
         
+class DayZeroContainer(ModelContainer):
+    pass
+
+class LifeCalContainer(ModelContainer):
+    pass
+                
 def root_factory_maker():
     return Root
