@@ -1,8 +1,8 @@
 <%inherit file="base.mako"/>
 
 <div id="center-content">
-    %if message:
-        <h3>${message}</h3>
+    %if session.peek_flash():
+        <h3>${session.pop_flash()[0]}</h3>
     %endif
     
     <div id="login-form" class="login-forms">

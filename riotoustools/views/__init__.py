@@ -1,3 +1,5 @@
+import transaction
+
 from pyramid.security import remember
 from pyramid.security import forget
 from pyramid.view import view_config
@@ -32,11 +34,12 @@ def login(request):
                     filter_by(email=email).
                     filter_by(password=password).one())
             headers = remember(request, user.id)
-            return HTTPFound(location = resource_url(next, request), headers = headers)
+            return HTTPFound(location=resource_url(next, request),
+                             headers=headers)
         except NoResultFound, e:
-            message = 'Invalid email and/or password.'
+            request.session.flash('Invalid email and/or password.')
 
-    return dict(message = message)
+    return dict(session=request.session)
     
 @view_config(name='logout')
 def logout(request):
@@ -46,4 +49,28 @@ def logout(request):
                      
 @view_config(name='create_user')
 def create_user(request):
-    pass
+    message = ''
+    next = request.params.get('next', request.root)
+    if 'form.create' in request.params:
+        try:
+            email = request.params.get('email')
+            password = request.params.get('password')
+            name = request.params.get('name')
+            
+            user = DBSession().query(User).filter_by(email=email).one()
+            request.session.flash('Email already in use, try another one.')
+            return HTTPFound(location = resource_url(request.root, request))
+            
+        except NoResultFound, e:
+            user = User()
+            user.email = email
+            user.password = password
+            user.name = name
+
+            session = DBSession()
+            session.add(user)
+            session.flush()
+            
+            headers = remember(request, user.id)
+            return HTTPFound(location=resource_url(request.root, request),
+                             headers=headers)
