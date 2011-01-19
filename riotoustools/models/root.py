@@ -1,24 +1,26 @@
-import collections
+import ordereddict
 
-from riotous101in1001.models import DBSession
+from riotoustools.models import DBSession
 
-from riotous101in1001.models.itemlist import ItemList
-from riotous101in1001.models.user import User
+from riotoustools.models.dayzero import DayZeroList
+from riotoustools.models.lifecal import LifeCal
+from riotoustools.models.user import User
 
 def _owned(obj, name, parent):
     obj.__name__ = name
     obj.__parent__ = parent
     return obj
     
-class Root(collections.OrderedDict):
+class Root(ordereddict.OrderedDict):
     __name__ = None
     __parent__ = None
     
     def __init__(self, request):
-        collections.OrderedDict.__init__(self)
+        ordereddict.OrderedDict.__init__(self)
         self.request = request
         
-        self['lists'] = _owned(ModelContainer(cls=ItemList), 'lists', self)
+        self['dayzero'] = _owned(ModelContainer(cls=DayZeroList), 'dayzero', self)
+        self['lifecal'] = _owned(ModelContainer(cls=LifeCal), 'lifecal', self)
         self['users'] = _owned(ModelContainer(cls=User), 'users', self)
         
 class ModelContainer(object):

@@ -18,9 +18,9 @@ requires = [
 if sys.version_info[:3] < (2,5,0):
     requires.append('pysqlite')
 
-setup(name='riotous101in1001',
+setup(name='riotoustools',
       version='0.0',
-      description='riotous101in1001',
+      description='riotoustools',
       long_description=README + '\n\n' +  CHANGES,
       classifiers=[
         "Programming Language :: Python",
@@ -37,10 +37,10 @@ setup(name='riotous101in1001',
       zip_safe=False,
       install_requires = requires,
       tests_require = requires,
-      test_suite="riotous101in1001",
+      test_suite="riotoustools",
       entry_points = """\
       [paste.app_factory]
-      main = riotous101in1001:main
+      main = riotoustools:main
       """,
       paster_plugins=['pyramid'],
       )

@@ -6,14 +6,16 @@ from sqlalchemy import Column
 
 from sqlalchemy.orm import relation
 
-from riotous101in1001.models import Base
-from riotous101in1001.models.dayzerolist import DayZeroList
+from riotoustools.models import Base
+from riotoustools.models.dayzero import DayZeroList
+from riotoustools.models.lifecal import LifeCal
 
-class DayZeroUser(Base):
-    __tablename__ = 'dayzerousers'
+class User(Base):
+    __tablename__ = 'users'
     
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     email = Column(String, nullable=False)
     
-    lists = relation(DayZeroList, backref='user', order_by='id')
+    lists = relation(DayZeroList, backref='user')
+    calendar = relation(LifeCal, backred='user')

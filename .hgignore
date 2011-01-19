@@ -1,5 +1,7 @@
 .pyc
-.egg-info
+.orig
+.project
+.hg
 .coverage
-.db
+.egg-info
 .DS_Store

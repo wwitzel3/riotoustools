@@ -1,7 +1,7 @@
 <%inherit file="base.mako"/>
 
 <div id="center-content"> 
-<h3>Viewing ${listing.name}'s 101 in 1001 list</h3>
+<h3>Viewing ${dayzero_list.name}'s 101 in 1001 list</h3>
 <ol id="day-zero-list">
     % for i in xrange(1,102):
     <li class="day-zero-item">
