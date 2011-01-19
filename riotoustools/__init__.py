@@ -8,7 +8,7 @@ from sqlalchemy import engine_from_config
 
 from riotoustools.models.root import root_factory_maker
 from riotoustools.models import initialize_sql, DBSession
-from riotoustools.security import groupfinder
+from riotoustools.security import RequestWithUserAttribute, groupfinder
 
 def main(global_config, **settings):
     """ This function returns a WSGI application.
@@ -23,7 +23,8 @@ def main(global_config, **settings):
     config = Configurator(settings=settings,
                           root_factory=root_factory_maker(),
                           authentication_policy=authn_policy,
-                          authorization_policy=authz_policy)
+                          authorization_policy=authz_policy,
+                          request_factory=RequestWithUserAttribute)
     config.scan('riotoustools.models')
     config.add_static_view('static', 'riotoustools:static')
     config.scan('riotoustools.views')

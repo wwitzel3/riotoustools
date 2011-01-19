@@ -1,4 +1,6 @@
-from pyramid.security import authenticated_userid
+from pyramid.security import unauthenticated_userid
+from pyramid.decorator import reify
+from pyramid.request import Request
 
 from riotoustools.models import DBSession
 from riotoustools.models.user import User
@@ -8,9 +10,8 @@ def groupfinder(userid, request):
         return ['view']
     return None
     
-def authenticated_user(func):
-    def wrapper(request):
-        id = authenticated_userid(request)
-        request.user = DBSession().query(User).get(id)
-        return func(request)
-    return wrapper
+class RequestWithUserAttribute(Request):
+    @reify
+    def user(self):
+        userid = unauthenticated_userid(self)
+        return DBSession().query(User).get(userid)

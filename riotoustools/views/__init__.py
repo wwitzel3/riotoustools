@@ -9,10 +9,8 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from riotoustools.models import DBSession
 from riotoustools.models.user import User
-from riotoustools.security import authenticated_user
 
 @view_config(renderer='index.mako', permission='view')
-@authenticated_user
 def index(request):
     return dict(
         logged_in = request.user,
