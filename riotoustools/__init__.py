@@ -25,8 +25,8 @@ def main(global_config, **settings):
                           authentication_policy=authn_policy,
                           authorization_policy=authz_policy,
                           request_factory=RequestWithUserAttribute)
-    config.scan('riotoustools.models')
     config.add_static_view('static', 'riotoustools:static')
+    config.scan('riotoustools.models')
     config.scan('riotoustools.views')
                        
     return config.make_wsgi_app()
