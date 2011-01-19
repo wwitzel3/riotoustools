@@ -16,6 +16,7 @@ requires = [
     'minimock',
     'nose',
     'mako',
+    'pyramid_beaker',
     ]
 
 if sys.version_info[:3] < (2,5,0):

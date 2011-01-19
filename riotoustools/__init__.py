@@ -3,6 +3,7 @@ import transaction
 from pyramid.config import Configurator
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
+from pyramid_beaker import session_factory_from_settings
 
 from sqlalchemy import engine_from_config
 
@@ -19,12 +20,14 @@ def main(global_config, **settings):
     authn_policy = AuthTktAuthenticationPolicy('riotous4321',
                                                 callback=groupfinder)
     authz_policy = ACLAuthorizationPolicy()
+    session_factory = session_factory_from_settings(settings)
     
     config = Configurator(settings=settings,
                           root_factory=root_factory_maker(),
                           authentication_policy=authn_policy,
                           authorization_policy=authz_policy,
-                          request_factory=RequestWithUserAttribute)
+                          request_factory=RequestWithUserAttribute,
+                          session_factory=session_factory)
     config.add_static_view('static', 'riotoustools:static')
     config.scan('riotoustools.models')
     config.scan('riotoustools.views')
