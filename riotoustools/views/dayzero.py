@@ -1,9 +1,10 @@
 from pyramid.response import Response
 from pyramid.view import view_config
 
-from riotoustools.models.itemlist import DayZeroList
 from riotoustools.models.root import ModelContainer
+from riotoustools.models.dayzero import DayZeroList
 
+    
 @view_config(name='dayzero_browse', renderer='dayzero_browse.mako', context=ModelContainer)
 def browse(context, request):
     return {'dayzero_lists':context}

@@ -1,6 +1,7 @@
 import datetime
 
 from sqlalchemy import Integer
+from sqlalchemy import Boolean
 from sqlalchemy import Date
 from sqlalchemy import String
 from sqlalchemy import ForeignKey

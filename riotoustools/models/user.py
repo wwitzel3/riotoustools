@@ -18,4 +18,4 @@ class User(Base):
     email = Column(String, nullable=False)
     
     lists = relation(DayZeroList, backref='user')
-    calendar = relation(LifeCal, backred='user')
+    calendar = relation(LifeCal, backref='user')

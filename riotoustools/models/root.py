@@ -27,10 +27,7 @@ class ModelContainer(object):
     def __init__(self, cls):
         self.cls = cls
     def __getitem__(self, k):
-        model = DBSession().query(self.cls).get(k)
-        if model:
-            return _owned(model, str(k), self)
-        return model
+        return _owned(DBSession().query(self.cls).filter_by(id=k).one(), str(k), self)
     def __len__(self):
         return DBSession().query(self.cls).count()
     def __iter__(self):
