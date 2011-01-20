@@ -26,6 +26,10 @@ body {
     width: 950px;
 }
 
+.inline-block {
+    display: inline-block;
+}
+
 .clear {
     clear: both;
 }
@@ -83,46 +87,46 @@ p#logo {
     margin-top: 25px;
 }
 
-p#logo a {
+#logo a {
     display: block;
     text-indent: -5000px;
     width: 260px;
     height: 121px;
 }
 
-ul#nav-index {
+#nav-index {
     display: inline;
     float: right;
     list-style-type: none;
     margin: 120px 0 0 0;
 }
 
-ul#nav-index li, ul#top li {
+#nav-index li, ul#top li {
     display: inline;
     float: left;
     margin: 0 57px 0 0;
 }
 
-ul#nav-index li a, ul#top li a {
+#nav-index li a, ul#top li a {
     font-size: 1.4em;
     font-weight: bold;
 }
 
-ul#nav-index li.red, ul#top li.red {
+#nav-index li.red, ul#top li.red {
     display: inline;
     float: left;
     margin-right: 0;
 }
 
-ul#nav-index li.red a, ul#top li.red a {
+#nav-index li.red a, ul#top li.red a {
     color:#d91c5c;
 }
 
-ul#nav-index li.black a, ul#top li.black a {
+#nav-index li.black a, ul#top li.black a {
     color:#000;
 }
 
-ul#nav-bottom {
+#nav-bottom {
     display: block;
     list-style-type: none;
     margin: 20px auto;/* 20px 384px;*/
@@ -130,18 +134,18 @@ ul#nav-bottom {
     padding-left: 20px;
 }
 
-ul#nav-bottom li  {
+#nav-bottom li  {
     display: inline;
     float: left;
     margin-right: 15px;
 }
 
-ul#nav-bottom li a  {
+#nav-bottom li a  {
     color:#708a93;
     text-decoration: underline;
 }
 
-p#copyright {
+#copyright {
     display: block;
     clear: both;
     text-align: center;

@@ -29,7 +29,7 @@ class Root(ordereddict.OrderedDict):
         
         self['dayzero'] = _owned(DayZeroContainer(cls=DayZeroList), 'dayzero', self)
         self['lifecal'] = _owned(LifeCalContainer(cls=LifeCal), 'lifecal', self)
-        self['users'] = _owned(ModelContainer(cls=User), 'users', self)
+        self['users'] = _owned(UserContainer(cls=User), 'users', self)
         
 class ModelContainer(object):
     def __init__(self, cls):
@@ -46,6 +46,9 @@ class DayZeroContainer(ModelContainer):
 
 class LifeCalContainer(ModelContainer):
     pass
-                
+
+class UserContainer(ModelContainer):
+    pass
+       
 def root_factory_maker():
     return Root

@@ -9,8 +9,28 @@ from sqlalchemy import engine_from_config
 
 from riotoustools.models.root import root_factory_maker
 from riotoustools.models import initialize_sql, DBSession
+
+from riotoustools.models.user import User, Group
+from riotoustools.models.dayzero import DayZeroList, DayZeroItem
+
 from riotoustools.security import RequestWithUserAttribute, groupfinder
 
+def install_data():
+    session = DBSession()
+    
+    user = User('admin@example.com', 'password', 'Admin')
+    user.groups.append('admin')
+    user.groups.append('view')
+    
+    dayzerolist = DayZeroList('My First List')
+    for i in xrange(1,102):
+        dayzerolist.items.append(DayZeroItem('Thing TODO #{0}'.format(i)))
+        
+    user.lists.append(dayzerolist)
+    session.add(user)
+    session.flush()
+    transaction.commit()
+    
 def main(global_config, **settings):
     """ This function returns a WSGI application.
     """
@@ -31,5 +51,7 @@ def main(global_config, **settings):
     config.add_static_view('static', 'riotoustools:static')
     config.scan('riotoustools.models')
     config.scan('riotoustools.views')
-                       
+    
+    install_data()
+    
     return config.make_wsgi_app()

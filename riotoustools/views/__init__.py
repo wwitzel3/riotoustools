@@ -66,7 +66,8 @@ def create_user(request):
             user.email = email
             user.password = password
             user.name = name
-
+            user.groups.append('view')
+            
             session = DBSession()
             session.add(user)
             session.flush()

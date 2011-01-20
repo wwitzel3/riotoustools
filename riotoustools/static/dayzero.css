@@ -1,11 +1,11 @@
-ol#day-zero-list p {
+#day-zero-list p {
     font-family: verdana;
     font-family: verdana;
     font-weight: normal;
     color: #000;
 }
 
-ol#day-zero-list li {
+#day-zero-list li {
     font-family: verdana;
     border: 1px solid #E5E5E5;
     margin-bottom: 5px;
@@ -32,10 +32,12 @@ ol#day-zero-list li {
     display: none;
 }
 
+.day-zero-label {
+    font-weight: bold;
+}
 .day-zero-item-label {
     font-size: 10px;
     font-style: italic;
-    font-weight: bold;
     display: inline-block;
 }
 

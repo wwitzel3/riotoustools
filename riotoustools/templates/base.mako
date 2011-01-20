@@ -29,7 +29,6 @@
             
             <ul id="nav-index">
                 <li><a href="/">Home</a></li>
-                <li><a href="/">Create A List</a></li>
                 <li><a href="/dayzero">Browse Lists</a></li>
                 <li><a href="/lifecal">View Calendar</a></li>
                 <li><a href="/about">About</a></li>

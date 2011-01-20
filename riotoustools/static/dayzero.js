@@ -6,14 +6,13 @@ $('input.button.accept').live('click', function(o) {
        Apply the item-complete style to the p tag.
        Send an AJAX request to PUT/UPDATE the list item as completed in the database.
     */
-    var item_text = $(o.target).parent('div').parent('div').children('p.day-zero-item-text');
+    var item_text = $(o.target).parents('div.day-zero-item-container').find('.day-zero-item-text.editable');
     console.log(item_text);
     item_text.addClass('item-complete');
 });
 
 $('input.button.edit').live('click', function(o) {
-    console.log(o);
-    var item_description = $(o.target).parent('div').parent('div').children('div.day-zero-item-longtext');
+    var item_description = $(o.target).parents('.day-zero-item-container').find('.day-zero-item-longtext');
     item_description.slideToggle("slow");
 });
 
