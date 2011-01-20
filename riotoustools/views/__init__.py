@@ -11,6 +11,7 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from riotoustools.models import DBSession
 from riotoustools.models.user import User
+from riotoustools.models.dayzero import DayZeroList
 
 @view_config(renderer='index.mako', permission='view')
 def index(request):
@@ -67,6 +68,7 @@ def create_user(request):
             user.password = password
             user.name = name
             user.groups.append('view')
+            user.lists.append(DayZeroList('Default'))
             
             session = DBSession()
             session.add(user)
