@@ -6,6 +6,7 @@ import ordereddict
 
 from riotoustools.models import DBSession
 from riotoustools.models.dayzero import DayZeroList
+from riotoustools.models.dayzero import DayZeroItem
 from riotoustools.models.lifecal import LifeCal
 from riotoustools.models.user import User
 
@@ -27,6 +28,7 @@ class Root(ordereddict.OrderedDict):
         ordereddict.OrderedDict.__init__(self)
         self.request = request
         
+        self['dayzeroitem'] = _owned(DayZeroItemContainer(cls=DayZeroItem), 'dayzeroitem', self)
         self['dayzero'] = _owned(DayZeroContainer(cls=DayZeroList), 'dayzero', self)
         self['lifecal'] = _owned(LifeCalContainer(cls=LifeCal), 'lifecal', self)
         self['users'] = _owned(UserContainer(cls=User), 'users', self)
@@ -44,6 +46,9 @@ class ModelContainer(object):
 class DayZeroContainer(ModelContainer):
     pass
 
+class DayZeroItemContainer(ModelContainer):
+    pass
+        
 class LifeCalContainer(ModelContainer):
     pass
 

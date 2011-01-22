@@ -52,6 +52,6 @@ def main(global_config, **settings):
     config.scan('riotoustools.models')
     config.scan('riotoustools.views')
     
-    install_data()
+    #install_data()
     
     return config.make_wsgi_app()

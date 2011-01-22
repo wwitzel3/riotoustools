@@ -16,15 +16,17 @@
     % for item in dayzero_list.items:
     <li class="day-zero-item">
         <div class="day-zero-item-container">
+            <form class="inline-block" name="day-zero-item-form" action="/dayzeroitem/${item.id}/edit">
+            <input type="hidden" name="completed" value="${item.completed}" />
             <p class="day-zero-item-text ${'editable' if dayzero_list.user == user else ''} ${'item-complete' if item.completed else ''}">${item.description}</p>
+            </form>
             <div class="day-zero-item-buttons">
-                <input class="button edit" type="image" src="/static/icons/edit_desc.png" />
                 % if dayzero_list.user == user:
                 <input class="button accept" type="image" src="/static/icons/accept.png" />
                 <input class="button cancel" type="image" src="/static/icons/cancel.png" />
                 % endif
             </div>
-            <div class="day-zero-item-longtext">
+            <div class="day-zero-item-longtext"> 
                 <p class="day-zero-item-description ${'multi-editable' if dayzero_list.user == user else ''}">This holds content.</p>
                 
                 <label class="day-zero-label day-zero-item-label" for="day-zero-item-timestamp-added">Added:</label>
@@ -34,6 +36,7 @@
                 <label class="day-zero-label day-zero-item-label" for="day-zero-item-timestamp-completed">Completed:</label>
                 <p class="day-zero-item-timestamp" name="day-zero-item-timestamp-completed">${item.completed_at.strftime("%Y.%m.%d %H:%M")}</p>
                 % endif
+                
             </div>
         </div>
     </li>

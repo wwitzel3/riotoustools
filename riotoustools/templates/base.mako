@@ -15,6 +15,7 @@
 <link href="/static/lifecal.css" rel="stylesheet" type="text/css" /> 
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="/static/jquery.tmpl.min.js"></script>
 <script type="text/javascript" src="/static/javascript.js"></script>
 <script type="text/javascript" src="/static/dayzero.js"></script>
 <script type="text/javascript" src="/static/lifecal.js"></script>

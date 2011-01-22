@@ -8,6 +8,7 @@ from sqlalchemy import String
 from sqlalchemy import Text
 from sqlalchemy import ForeignKey
 from sqlalchemy import Column
+from sqlalchemy import and_
 
 from sqlalchemy.orm import relation
 
@@ -27,8 +28,8 @@ class DayZeroList(Base):
     end_at = Column(Date, default=datetime.datetime.now() + datetime.timedelta(days=1001))
     
     items = relation('DayZeroItem', backref='dayzerolist')
-
     
+
 class DayZeroItem(Base):
     __tablename__ = 'dayzeroitems'
     
