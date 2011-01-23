@@ -19,15 +19,21 @@
             <form class="inline-block" name="day-zero-item-form" action="/dayzeroitem/${item.id}/edit">
             <input type="hidden" name="completed" value="${item.completed}" />
             <p class="day-zero-item-text ${'editable' if dayzero_list.user == user else ''} ${'item-complete' if item.completed else ''}">${item.description}</p>
-            </form>
             <div class="day-zero-item-buttons">
                 % if dayzero_list.user == user:
+                <input class="button edit" type="image" src="/static/icons/pencil.png" />
                 <input class="button accept" type="image" src="/static/icons/accept.png" />
-                <input class="button cancel" type="image" src="/static/icons/cancel.png" />
+                <input class="button remove" type="image" src="/static/icons/cancel.png" />
                 % endif
             </div>
             <div class="day-zero-item-longtext"> 
-                <p class="day-zero-item-description ${'multi-editable' if dayzero_list.user == user else ''}">This holds content.</p>
+                <p class="day-zero-item-description ${'multi-editable' if dayzero_list.user == user else ''}">
+                % if item.long_description:
+                    ${item.long_description}
+                % else:
+                    <span class="notice">Double-click to enter a long description</span>
+                % endif
+                </p>
                 
                 <label class="day-zero-label day-zero-item-label" for="day-zero-item-timestamp-added">Added:</label>
                 <p class="day-zero-item-timestamp" name="day-zero-item-timestamp-added">${item.created_at.strftime("%Y.%m.%d %H:%M")}</p>
@@ -36,8 +42,8 @@
                 <label class="day-zero-label day-zero-item-label" for="day-zero-item-timestamp-completed">Completed:</label>
                 <p class="day-zero-item-timestamp" name="day-zero-item-timestamp-completed">${item.completed_at.strftime("%Y.%m.%d %H:%M")}</p>
                 % endif
-                
             </div>
+            </form>
         </div>
     </li>
     % endfor

@@ -77,6 +77,8 @@ def edit_item(request):
             created_at=dayzero_item.created_at.strftime('%Y.%m.%d %H:%M'),
             completed=dayzero_item.completed,
             completed_at=dayzero_item.completed_at.strftime('%Y.%m.%d %H:%M') if dayzero_item.completed else None,
+            description=dayzero_item.description,
+            long_description=dayzero_item.long_description
         )
     else:
         return dict(

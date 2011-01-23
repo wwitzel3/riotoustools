@@ -34,6 +34,18 @@ body {
     clear: both;
 }
 
+.button {
+    width: 16px;
+    height: 16px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.notice {
+    font-size: 10px;
+    font-style: italic;
+}
+
 ul {
     margin-left: 20px;
 }
@@ -44,6 +56,19 @@ a {
     outline: none;
 }
 
+input[type="text"] {
+    font-family: verdana;
+    font-size: 12px;
+    width: 375px;
+}
+
+textarea {
+    display: block;
+    font-family: verdana;
+    font-size: 12px;
+    height: 100px;
+    width: 375px;
+}
 a:hover {
     text-decoration: underline;
 }
