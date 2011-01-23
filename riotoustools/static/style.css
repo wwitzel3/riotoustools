@@ -62,6 +62,12 @@ input[type="text"] {
     width: 375px;
 }
 
+input[type="password"] {
+    font-family: verdana;
+    font-size: 12px;
+    width: 375px;
+}
+
 textarea {
     display: block;
     font-family: verdana;
@@ -77,6 +83,41 @@ a:hover {
     height: 180px;
     /* background: url(../images/header_bg.gif) repeat-x; */
 }        
+
+fieldset {   
+    margin: 1.5em 0 0 0;   
+    padding: 0;  
+}  
+
+legend {   
+    margin-left: 1em;   
+    color: #000000;   
+    font-weight: bold;  
+}  
+
+fieldset ol {   
+    padding: 1em 1em 0 1em;   
+    list-style: none;  
+} 
+
+fieldset li {   
+    padding-bottom: 1em;  
+} 
+
+fieldset.submit {   
+    border-style: none;  
+}
+
+fieldset label {    
+    display: block;   
+}
+
+fieldset label {    
+    float: left;    
+    width: 10em;    
+    margin-right: 1em;    
+    text-align: right;   
+}
 
 #banner {
     width: 100%;

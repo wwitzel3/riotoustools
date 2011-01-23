@@ -10,23 +10,27 @@ from pyramid.url import resource_url
 from sqlalchemy.orm.exc import NoResultFound
 
 from riotoustools.models import DBSession
+from riotoustools.models.root import Root
 from riotoustools.models.user import User
 from riotoustools.models.dayzero import DayZeroList
 
 @view_config(renderer='index.mako', permission='view')
 def index(request):
-    return dict(
-        logged_in = request.user,
-    )
+    return dict()
     
 @view_config(name='about', renderer='about.mako')
 def about(request):
-    return {}
+    return dict()
     
 @view_config(renderer='login.mako', context=Forbidden)
 def login(request):
     message = ''
-    next = request.params.get('next', request.root)
+    next = request.params.get('next')
+    if next and len(next) > 1:
+        next = Root(request)[next[1:]]
+    else:
+        next = request.root
+        
     if 'form.login' in request.params:
         try:
             email = request.params.get('email')
@@ -63,17 +67,21 @@ def create_user(request):
             return HTTPFound(location = resource_url(request.root, request))
             
         except NoResultFound, e:
-            user = User()
-            user.email = email
-            user.password = password
-            user.name = name
-            user.groups.append('view')
-            user.lists.append(DayZeroList('Default'))
+            if all([email, password, name]):
+                user = User()
+                user.email = email
+                user.password = password
+                user.name = name
+                user.groups.append('view')
+                user.lists.append(DayZeroList('Default'))
             
-            session = DBSession()
-            session.add(user)
-            session.flush()
+                session = DBSession()
+                session.add(user)
+                session.flush()
             
-            headers = remember(request, user.id)
-            return HTTPFound(location=resource_url(request.root, request),
-                             headers=headers)
+                headers = remember(request, user.id)
+                return HTTPFound(location=resource_url(request.root, request),
+                                 headers=headers)
+            else:
+                request.session.flash('Bad form data.')
+                return HTTPFound(location = resource_url(request.root, request))
