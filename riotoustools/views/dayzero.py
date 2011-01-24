@@ -31,12 +31,16 @@ def show(request):
 def add(request):
     dayzero_list = request.context
     if request.user == dayzero_list.user:
-        dayzero_list.items.append(
-            DayZeroItem(description=request.params.get('description'))
-        )
+        dayzero_item = DayZeroItem(description=request.params.get('description'))
+        dayzero_list.items.append(dayzero_item)
+        DBSession().flush()
+        
         return dict(
+            id=dayzero_item.id,
             status=1,
-            message='List successfully updated.'
+            created_at=dayzero_item.created_at.strftime('%Y.%m.%d %H:%M'),
+            completed=dayzero_item.completed,
+            description=dayzero_item.description
         )
     else:
         return dict(
@@ -52,7 +56,21 @@ def edit(request):
         return dict()
     else:
         return dict()
-        
+
+@view_config(name='remove', context=DayZeroItem, permission='view', renderer='json', xhr=True)
+def remove_item(request):
+    dayzero_item = request.context
+    if request.user == dayzero_item.dayzerolist.user:
+        DBSession().delete(request.context)
+        return dict(
+            status=1
+        )
+    else:
+        return dict(
+            status=0,
+            message='You do not have permissions to modify this item'
+        )
+
 @view_config(name='edit', context=DayZeroItem, permission='view', renderer='json')
 def edit_item(request):
     dayzero_item = request.context

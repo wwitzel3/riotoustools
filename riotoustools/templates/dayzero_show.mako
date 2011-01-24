@@ -12,18 +12,28 @@
     <p class="inline-block ${'editable' if dayzero_list.user == user else ''}">${dayzero_list.end_at.strftime('%Y.%m.%d')}</p>
 </div>
 
+% if dayzero_list.user == user:
+<div class="day-zero-item-add">
+    <form class="inline-block" name="day-zero-item-add-form" action="/dayzero/${dayzero_list.id}/add">
+    <label for="description">Add New Item</label>
+    <input type="text" name="description" />
+    <input class="button add" type="image" src="/static/icons/add.png" />
+    </form>
+</div>
+% endif
+
 <ol id="day-zero-list">
     % for item in dayzero_list.items:
     <li class="day-zero-item">
         <div class="day-zero-item-container">
-            <form class="inline-block" name="day-zero-item-form" action="/dayzeroitem/${item.id}/edit">
+            <form class="inline-block" name="day-zero-item-form" action="/dayzeroitem/${item.id}">
             <input type="hidden" name="completed" value="${item.completed}" />
             <p class="day-zero-item-text ${'editable' if dayzero_list.user == user else ''} ${'item-complete' if item.completed else ''}">${item.description}</p>
             <div class="day-zero-item-buttons">
                 % if dayzero_list.user == user:
                 <input class="button edit" type="image" src="/static/icons/pencil.png" />
                 <input class="button accept" type="image" src="/static/icons/accept.png" />
-                <input class="button remove" type="image" src="/static/icons/cancel.png" />
+                <input class="button remove" type="image" src="/static/icons/delete.png" />
                 % endif
             </div>
             <div class="day-zero-item-longtext"> 

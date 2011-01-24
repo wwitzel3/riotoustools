@@ -67,11 +67,8 @@ def create_user(request):
             return HTTPFound(location = resource_url(request.root, request))
             
         except NoResultFound, e:
-            if all([email, password, name]):
-                user = User()
-                user.email = email
-                user.password = password
-                user.name = name
+            if all([email, password]):
+                user = User(email, password, name)
                 user.groups.append('view')
                 user.lists.append(DayZeroList('Default'))
             
