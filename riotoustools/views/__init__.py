@@ -13,6 +13,7 @@ from riotoustools.models import DBSession
 from riotoustools.models.root import Root
 from riotoustools.models.user import User
 from riotoustools.models.dayzero import DayZeroList
+from riotoustools.models.lifecal import LifeCal
 
 @view_config(renderer='index.mako', permission='view')
 def index(request):
@@ -71,7 +72,8 @@ def create_user(request):
                 user = User(email, password, name)
                 user.groups.append('view')
                 user.lists.append(DayZeroList('Default'))
-            
+                user.calendar.append(LifeCal())
+                
                 session = DBSession()
                 session.add(user)
                 session.flush()

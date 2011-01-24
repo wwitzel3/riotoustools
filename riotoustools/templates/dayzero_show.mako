@@ -77,3 +77,13 @@
         ${dayzero_list.user.email}
     % endif
 </%def>
+
+<%def name='head_js()'>
+<script type="text/javascript" src="/static/jquery.tmpl.min.js"></script>
+<script type="text/javascript" src="/static/dayzero.js"></script>
+</%def>
+
+
+<%def name='head_css()'>
+<link href="/static/dayzero.css" rel="stylesheet" type="text/css" /> 
+</%def>

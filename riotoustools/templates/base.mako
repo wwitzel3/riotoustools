@@ -7,19 +7,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
-
 <title>riotousliving.com - ${self.title()}</title>
 
 <link href="/static/style.css" rel="stylesheet" type="text/css" /> 
-<link href="/static/dayzero.css" rel="stylesheet" type="text/css" /> 
-<link href="/static/lifecal.css" rel="stylesheet" type="text/css" /> 
-
+${self.head_css()}
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
-<script type="text/javascript" src="/static/jquery.tmpl.min.js"></script>
 <script type="text/javascript" src="/static/javascript.js"></script>
-<script type="text/javascript" src="/static/dayzero.js"></script>
-<script type="text/javascript" src="/static/lifecal.js"></script>
-
+${self.head_js()}
 </head>
 
 <body>
@@ -60,6 +54,8 @@
 </body>
 </html>
 
-<%def name='title()'>
-    tools
-</%def>
+<%def name='title()'>tools</%def>
+
+<%def name='head_css()'></%def>
+
+<%def name='head_js()'></%def>

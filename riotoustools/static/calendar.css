@@ -1,0 +1,31 @@
+#center-content {
+    width: 100%;
+}
+
+table {
+    margin: 10px
+}
+
+table.month th {
+    width: 45px;
+    height: 45px;
+}
+
+table.month td {
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    border: 1px solid #EEE;
+}
+
+.noday {
+    background-color: #CCC;
+}
+
+.sat {
+    background-color: lightyellow;
+}
+
+.sun {
+    background-color: lightyellow;
+}

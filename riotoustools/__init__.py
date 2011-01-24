@@ -12,6 +12,7 @@ from riotoustools.models import initialize_sql, DBSession
 
 from riotoustools.models.user import User, Group
 from riotoustools.models.dayzero import DayZeroList, DayZeroItem
+from riotoustools.models.lifecal import LifeCal
 
 from riotoustools.security import RequestWithUserAttribute, groupfinder
 
@@ -27,6 +28,8 @@ def install_data():
         dayzerolist.items.append(DayZeroItem('Thing TODO #{0}'.format(i)))
         
     user.lists.append(dayzerolist)
+    user.calendar.append(LifeCal())
+    
     session.add(user)
     session.flush()
     transaction.commit()
