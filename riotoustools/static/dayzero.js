@@ -13,7 +13,7 @@ $.template('notcompleted-template', [
 $.template('item-template', [
     '<li style="display:none" class="day-zero-item new">',
     '<div class="day-zero-item-container">',
-    '<form class="inline-block" name="day-zero-item-form" action="/dayzeroitem/${id}/edit">',
+    '<form class="inline-block" name="day-zero-item-form" action="/dayzeroitem/${id}">',
     '<input type="hidden" name="completed" value="${completed}" />',
     '<p class="day-zero-item-text editable">${description}</p>',
     '<div class="day-zero-item-buttons">',
@@ -86,9 +86,16 @@ $('.add').live('click', function(o) {
     
     var action = $('input[name=day-zero-item-add-action]').val();
     var form = $(o.target).parents('.day-zero-item-container').find('form[name=day-zero-item-add]');
+    var dayzero_list = $('#day-zero-list');
+    
     $.post(action, form.serialize(), function (data) {
         if (data.status) {
-            $('#day-zero-list').children('li:last').before($.tmpl('item-template', data));
+            if ($('#day-zero-list').children('li').length == 1) {
+                dayzero_list.append($.tmpl('item-template', data));
+                dayzero_list.append('<li class="hover new"><span class="notice">Click here to add a new item</span></li>');
+            } else {
+                $('#day-zero-list').children('li:last').before($.tmpl('item-template', data));
+            }
             $('.day-zero-item.new').fadeIn(500, function() {
                 $('.day-zero-item.new').removeClass('new');
             });
@@ -105,6 +112,9 @@ $('.remove').live('click', function(o) {
         var form = $(o.target).parents('.day-zero-item-container').find('form[name=day-zero-item-form]');
         $.post(form.attr('action')+'/remove', form.serialize(), function(data) {
             if (data.status) {
+                if ($('#day-zero-list').children('li').length == 3) {
+                    $('#day-zero-list').children('li:last').fadeOut(500, function () { $(this).remove(); });
+                }
                 var item = $(o.target).parents('.day-zero-item');
                 $(item).fadeOut(500, function () { $(this).remove(); });
             }

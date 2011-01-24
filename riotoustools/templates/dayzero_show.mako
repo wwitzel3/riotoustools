@@ -64,7 +64,7 @@
         </div>
     </li>
     % endfor
-    % if len(dayzero_list.items) > 1:
+    % if len(dayzero_list.items) >= 1:
         <li class="hover new"><span class="notice">Click here to add a new item</span></li>
     % endif
 </ol>
