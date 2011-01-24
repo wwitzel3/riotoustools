@@ -29,9 +29,7 @@
 % endif
 
 <ol id="day-zero-list" start="0">
-    % if len(dayzero_list.items) > 1:
-        <li class="hover new"><span class="notice">Click here to add a new item</span></li>
-    % endif
+    <li class="hover new"><span class="notice">Click here to add a new item</span></li>
     % for i, item in enumerate(dayzero_list.items):
     <li class="day-zero-item">
         <div class="day-zero-item-container">
@@ -66,7 +64,9 @@
         </div>
     </li>
     % endfor
-    <li class="hover new"><span class="notice">Click here to add a new item</span></li>
+    % if len(dayzero_list.items) > 1:
+        <li class="hover new"><span class="notice">Click here to add a new item</span></li>
+    % endif
 </ol>
 </div>
 
