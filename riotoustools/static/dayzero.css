@@ -12,6 +12,13 @@
     background-color: lightyellow;
 }
 
+#day-zero-list li.hover.new {
+    list-style: none;
+    border: 1px dashed #E5E5E5;
+    color: #CCCCCC;
+    text-align: center;
+}
+
 .day-zero-item-container {
     padding: 1px 10px 1px 10px;
 }
@@ -47,8 +54,6 @@
     font-style: italic;
     display: inline-block;
 }
-.day-zero-item-add {
-    margin-top: 20px;
+.day-zero-list-info {
     margin-bottom: 20px;
-    margin-left: 20px;
 }

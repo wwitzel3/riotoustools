@@ -79,6 +79,10 @@ a:hover {
     text-decoration: underline;
 }
 
+.hidden {
+    display:none;
+}
+
 #header {
     height: 180px;
     /* background: url(../images/header_bg.gif) repeat-x; */

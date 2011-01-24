@@ -25,16 +25,14 @@
 </div>
 
 % if dayzero_list.user == user:
-<div class="day-zero-item-add">
-    <form class="inline-block" name="day-zero-item-add-form" action="/dayzero/${dayzero_list.id}/add">
-    <input type="text" name="description" />
-    <input class="button add" type="image" src="/static/icons/add.png" />
-    </form>
-</div>
+    <input type="hidden" name="day-zero-item-add-action" value="/dayzero/${dayzero_list.id}/add" />
 % endif
 
-<ol id="day-zero-list">
-    % for item in dayzero_list.items:
+<ol id="day-zero-list" start="0">
+    % if len(dayzero_list.items) > 1:
+        <li class="hover new"><span class="notice">Click here to add a new item</span></li>
+    % endif
+    % for i, item in enumerate(dayzero_list.items):
     <li class="day-zero-item">
         <div class="day-zero-item-container">
             <form class="inline-block" name="day-zero-item-form" action="/dayzeroitem/${item.id}">
@@ -68,6 +66,7 @@
         </div>
     </li>
     % endfor
+    <li class="hover new"><span class="notice">Click here to add a new item</span></li>
 </ol>
 </div>
 

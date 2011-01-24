@@ -4,7 +4,7 @@ $.template('completed-template', [
 );
 
 $.template('notcompleted-template', [
-    ' <p class="day-zero-item-description multi-editable">{{if}}${long_description}{{else}} ',
+    ' <p class="day-zero-item-description multi-editable">{{if long_description}}${long_description}{{else}} ',
     '<span class="notice">Double-click to enter a long description</span>{{/if}}</p> ',
     ' <label class="day-zero-label day-zero-item-label" for="day-zero-item-timestamp-added">Added:</label> ',
     ' <p class="day-zero-item-timestamp" name="day-zero-item-timestamp-added">${created_at}</p> '].join('')
@@ -26,6 +26,15 @@ $.template('item-template', [
     '<label class="day-zero-label day-zero-item-label" for="day-zero-item-timestamp-added">Added:</label>',
     '<p class="day-zero-item-timestamp" name="day-zero-item-timestamp-added">${created_at}</p>',
     '</div></form></div></li>'].join('')
+);
+
+$.template('item-new-template', [
+    '<div class="day-zero-item-container">',
+    '<form class="inline-block" name="day-zero-item-add">',
+    '<input type="text" name="description" value="" />',
+    '<button class="add">Save</button>',
+    '<button class="cancel">Cancel</button>',
+    '</form></div>'].join('')
 );
 
 $('.accept').live('click', function(o) {
@@ -59,18 +68,33 @@ $('.accept').live('click', function(o) {
     return false;
 });
 
+$('.hover.new').live('click', function(o) {
+    o.stopPropagation(); o.preventDefault();
+    var item_container = $(o.target).parents('.day-zero-item-container');
+    if ($(item_container).find('input[name=description]').length != 0) {
+        o.stopPropagation();
+        return false;
+    }
+    $(o.target).html($.tmpl('item-new-template'));
+    return false;
+});
+
 $('.add').live('click', function(o) {
     o.stopPropagation(); o.preventDefault();
-    var form = $(o.target).parents('.day-zero-item-add').find('form');
-    $.post(form.attr('action'), form.serialize(), function (data) {
+    var item = $('.hover.new');
+    $(item).html('<span class="notice">Click here to add a new item</span>');
+    
+    var action = $('input[name=day-zero-item-add-action]').val();
+    var form = $(o.target).parents('.day-zero-item-container').find('form[name=day-zero-item-add]');
+    $.post(action, form.serialize(), function (data) {
         if (data.status) {
-            $('#day-zero-list').append($.tmpl('item-template', data));
-            $('.day-zero-item.new').fadeIn(500, function() {});
-            $(form).each(function () {
-                this.reset();
+            $('#day-zero-list').children('li:last').before($.tmpl('item-template', data));
+            $('.day-zero-item.new').fadeIn(500, function() {
+                $('.day-zero-item.new').removeClass('new');
             });
         }
     });
+
     return false;    
 });
 
