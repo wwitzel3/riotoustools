@@ -2,20 +2,31 @@
 
 <div id="center-content"> 
 <div class="day-zero-list-info">
+<fieldset>
+<ol>
+<li>
     <label class="day-zero-label">Owner:</label>
     <p class="inline-block day-zero-info-owner">${owner_name()}</p>
+</li>
+<li>    
     <label class="day-zero-label">Name:</label>
     <p class="inline-block day-zero-item-text ${'editable' if dayzero_list.user == user else ''}">${dayzero_list.name}</p>
+</li>
+<li>
     <label class="day-zero-label">Start Date:</label>
     <p class="inline-block ${'editable' if dayzero_list.user == user else ''}">${dayzero_list.start_at.strftime('%Y.%m.%d')}</p>
+</li>
+<li>
     <label class="day-zero-label">Finish Date:</label>
     <p class="inline-block ${'editable' if dayzero_list.user == user else ''}">${dayzero_list.end_at.strftime('%Y.%m.%d')}</p>
+</li>
+</ol>
+</fieldset>
 </div>
 
 % if dayzero_list.user == user:
 <div class="day-zero-item-add">
     <form class="inline-block" name="day-zero-item-add-form" action="/dayzero/${dayzero_list.id}/add">
-    <label for="description">Add New Item</label>
     <input type="text" name="description" />
     <input class="button add" type="image" src="/static/icons/add.png" />
     </form>
@@ -40,7 +51,7 @@
                 <p class="day-zero-item-description ${'multi-editable' if dayzero_list.user == user else ''}">
                 % if item.long_description:
                     ${item.long_description}
-                % else:
+                % elif dayzero_list.user == user:
                     <span class="notice">Double-click to enter a long description</span>
                 % endif
                 </p>

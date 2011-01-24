@@ -89,7 +89,7 @@ $('.remove').live('click', function(o) {
     return false;
 });
 
-$('.editable').live('click', function(o) {
+$('.day-zero-item-text').live('click', function(o) {
     var item_container = $(o.target).parents('.day-zero-item-container');
     if ($(item_container).find('input[name=description]').length != 0) {
         o.stopPropagation();
@@ -137,7 +137,11 @@ $('.save').live('click', function (o) {
             var description = $(form).find('.day-zero-item-text');
             description.html(data.description);
             var long_description = $(form).find('.day-zero-item-description');
-            long_description.html(data.long_description);
+            if (data.long_description) {
+                long_description.html(data.long_description);
+            } else {
+                long_description.html('<span class="notice">Double-click to enter a long description</span>');
+            }
         }
     });
     $(item_container).find('.button.edit').css('display', 'inline-block');
