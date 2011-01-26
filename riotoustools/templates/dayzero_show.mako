@@ -33,8 +33,9 @@
     % for i, item in enumerate(request.context.items):
     <li class="day-zero-item">
         <div class="day-zero-item-container">
-            <form class="inline-block" name="day-zero-item-form" action="/dayzeroitem/${item.id}">
+            <form class="inline-block" name="day-zero-item-form" action="${request.resource_url(request.context)}">
             <input type="hidden" name="completed" value="${item.completed}" />
+            <input type="hidden" name="item_id" value="${item.id}" />
             <p class="day-zero-item-text ${'editable' if request.context.user == request.user else ''} ${'item-complete' if item.completed else ''}">${item.description}</p>
             <div class="day-zero-item-buttons">
                 % if request.context.user == request.user:
@@ -79,8 +80,8 @@
 </%def>
 
 <%def name='head_js()'>
-<script type="text/javascript" src="/static/jquery.tmpl.min.js"></script>
-<script type="text/javascript" src="/static/dayzero.js"></script>
+<script type="text/javascript" src="${request.static_url('riotoustools:static/jquery.tmpl.min.js')}"></script>
+<script type="text/javascript" src="${request.static_url('riotoustools:static/dayzero.js')}"></script>
 </%def>
 
 

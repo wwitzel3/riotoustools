@@ -111,7 +111,7 @@ $('.remove').live('click', function(o) {
     if (confirm) {
         var dayzero_list = $('#day-zero-list');
         var form = $(o.target).parents('.day-zero-item-container').find('form[name=day-zero-item-form]');
-        $.post(form.attr('action')+'/remove', form.serialize(), function(data) {
+        $.post(form.attr('action')+'remove', form.serialize(), function(data) {
             if (data.status) {
                 if (dayzero_list.children('li').length == 3) {
                     dayzero_list.children('li:last').fadeOut(500, function () { $(this).remove(); });
@@ -167,7 +167,7 @@ $('.save').live('click', function (o) {
     o.stopPropagation(); o.preventDefault();
     var item_container = $(o.target).parents('.day-zero-item-container');
     var form = $(item_container).find('form[name=day-zero-item-form]');
-    $.post(form.attr('action')+'/edit', form.serialize(), function (data) {
+    $.post(form.attr('action')+'edit', form.serialize(), function (data) {
         if (data.status) {
             var description = $(form).find('.day-zero-item-text');
             description.html(data.description);

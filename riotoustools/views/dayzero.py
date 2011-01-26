@@ -8,7 +8,7 @@ from pyramid.httpexceptions import HTTPFound
 from paste.deploy.converters import asbool
 
 from riotoustools.models import DBSession
-from riotoustools.models.root import _owned, Root, DayZeroContainer
+from riotoustools.models.root import Root, DayZeroContainer
 from riotoustools.models.dayzero import DayZeroList, DayZeroItem
 
 @view_config(name='create_dayzerolist', permission='add')
@@ -48,40 +48,19 @@ def add(request):
             message='You do not have permissions to change this list.'
         )
 
-@view_config(name='edit', context=DayZeroList, permission='edit', renderer='json', xhr=True)
-def edit(request):
-    dayzero_list = request.context
-    if request.user == dayzero_list.user:
-        dayzero_list.update(request.params.get('stuff'))
-        return dict()
-    else:
-        return dict()
-
-@view_config(name='remove', context=DayZeroItem, permission='edit', renderer='json', xhr=True)
-def remove_item(request):
-    dayzero_item = request.context
-    if request.user == dayzero_item.dayzerolist.user:
-        DBSession().delete(request.context)
-        return dict(
-            status=1
-        )
-    else:
-        return dict(
-            status=0,
-            message='You do not have permissions to modify this item'
-        )
-
-@view_config(name='edit', context=DayZeroItem, permission='edit', renderer='json')
+@view_config(name='edit', context=DayZeroList, permission='edit', renderer='json')
 def edit_item(request):
-    dayzero_item = request.context
-    
-    if request.user == dayzero_item.dayzerolist.user:
+    dayzero_list = request.context
+
+    if request.user == dayzero_list.user:
+        dayzero_item = DBSession().query(DayZeroItem).get(request.params.get('item_id'))
+
         if request.params.get('description'):
             dayzero_item.description = request.params.get('description')
-        
+
         if request.params.get('long_description'):
             dayzero_item.long_description = request.params.get('long_description')
-        
+
         completed = asbool(request.params.get('completed'))
         if completed:
             dayzero_item.completed = True
@@ -89,7 +68,7 @@ def edit_item(request):
         else:
             dayzero_item.completed = False
             dayzero_item.completed_at = None
-        
+
         return dict(
             status=1,
             created_at=dayzero_item.created_at.strftime('%Y.%m.%d %H:%M'),
@@ -103,3 +82,20 @@ def edit_item(request):
             status=0,
             message='You do not have permissions to change this list.'
         )
+
+@view_config(name='remove', context=DayZeroList, permission='edit', renderer='json', xhr=True)
+def remove_item(request):
+    dayzero_list = request.context
+    if request.user == dayzero_list.user:
+        session = DBSession()
+        item = session.query(DayZeroItem).get(request.params.get('item_id'))
+        session.delete(item)
+        return dict(
+            status=1
+        )
+    else:
+        return dict(
+            status=0,
+            message='You do not have permissions to modify this item'
+        )
+

@@ -12,7 +12,7 @@
 <link href="/static/style.css" rel="stylesheet" type="text/css" /> 
 ${self.head_css()}
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
-<script type="text/javascript" src="/static/javascript.js"></script>
+<script type="text/javascript" src="${request.static_url('riotoustools:static/javascript.js')}"></script>
 ${self.head_js()}
 </head>
 
