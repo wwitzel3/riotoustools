@@ -1,18 +1,22 @@
-from pyramid.security import unauthenticated_userid
+from pyramid.security import unauthenticated_userid, authenticated_userid
 from pyramid.decorator import reify
 from pyramid.request import Request
+from pyramid.exceptions import Forbidden
 
 from riotoustools.models import DBSession
 from riotoustools.models.user import User
 
 def groupfinder(userid, request):
-    user = DBSession().query(User).get(userid)
-    if user:
-        return user.user_groups
+    user = request.user
+    if user is not None:
+        return [group.name for group in user.user_groups]
     return None
     
 class RequestWithUserAttribute(Request):
     @reify
     def user(self):
         userid = unauthenticated_userid(self)
-        return DBSession().query(User).get(userid)
+        if userid is not None:
+            return DBSession().query(User).get(userid)
+        return None
+        

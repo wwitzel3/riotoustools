@@ -18,7 +18,7 @@ def show(request):
     year = calendar.HTMLCalendar().formatyear(2010)
     return {'lifecal':request.context, 'calendar': year}
     
-@view_config(name='edit', context=LifeCal, permission='view')
+@view_config(name='edit', context=LifeCal, permission='edit')
 def edit(request):
     lifecal = request.context
     lifecal.update(request.params.get('days'))

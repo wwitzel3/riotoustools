@@ -10,44 +10,44 @@
 </li>
 <li>    
     <label class="day-zero-label">Name:</label>
-    <p class="inline-block day-zero-item-text ${'editable' if dayzero_list.user == user else ''}">${dayzero_list.name}</p>
+    <p class="inline-block day-zero-item-text ${'editable' if request.context.user == request.user else ''}">${request.context.name}</p>
 </li>
 <li>
     <label class="day-zero-label">Start Date:</label>
-    <p class="inline-block ${'editable' if dayzero_list.user == user else ''}">${dayzero_list.start_at.strftime('%Y.%m.%d')}</p>
+    <p class="inline-block ${'editable' if request.context.user == request.user else ''}">${request.context.start_at.strftime('%Y.%m.%d')}</p>
 </li>
 <li>
     <label class="day-zero-label">Finish Date:</label>
-    <p class="inline-block ${'editable' if dayzero_list.user == user else ''}">${dayzero_list.end_at.strftime('%Y.%m.%d')}</p>
+    <p class="inline-block ${'editable' if request.context.user == request.user else ''}">${request.context.end_at.strftime('%Y.%m.%d')}</p>
 </li>
 </ol>
 </fieldset>
 </div>
 
-% if dayzero_list.user == user:
-    <input type="hidden" name="day-zero-item-add-action" value="/dayzero/${dayzero_list.id}/add" />
+% if request.context.user == request.user:
+    <input type="hidden" name="day-zero-item-add-action" value="${request.resource_url(request.context)}/add" />
 % endif
 
 <ol id="day-zero-list" start="0">
     <li class="hover new"><span class="notice">Click here to add a new item</span></li>
-    % for i, item in enumerate(dayzero_list.items):
+    % for i, item in enumerate(request.context.items):
     <li class="day-zero-item">
         <div class="day-zero-item-container">
             <form class="inline-block" name="day-zero-item-form" action="/dayzeroitem/${item.id}">
             <input type="hidden" name="completed" value="${item.completed}" />
-            <p class="day-zero-item-text ${'editable' if dayzero_list.user == user else ''} ${'item-complete' if item.completed else ''}">${item.description}</p>
+            <p class="day-zero-item-text ${'editable' if request.context.user == request.user else ''} ${'item-complete' if item.completed else ''}">${item.description}</p>
             <div class="day-zero-item-buttons">
-                % if dayzero_list.user == user:
+                % if request.context.user == request.user:
                 <input class="button edit" type="image" src="/static/icons/pencil.png" />
                 <input class="button accept" type="image" src="/static/icons/accept.png" />
                 <input class="button remove" type="image" src="/static/icons/delete.png" />
                 % endif
             </div>
             <div class="day-zero-item-longtext"> 
-                <p class="day-zero-item-description ${'multi-editable' if dayzero_list.user == user else ''}">
+                <p class="day-zero-item-description ${'multi-editable' if request.context.user == request.user else ''}">
                 % if item.long_description:
                     ${item.long_description}
-                % elif dayzero_list.user == user:
+                % elif request.context.user == request.user:
                     <span class="notice">Double-click to enter a long description</span>
                 % endif
                 </p>
@@ -64,17 +64,17 @@
         </div>
     </li>
     % endfor
-    % if len(dayzero_list.items) >= 1:
+    % if len(request.context.items) >= 1:
         <li class="hover new"><span class="notice">Click here to add a new item</span></li>
     % endif
 </ol>
 </div>
 
 <%def name='owner_name()'>
-    % if dayzero_list.user.name:
-        ${dayzero_list.user.name}
+    % if request.context.user.name:
+        ${request.context.user.name}
     % else:
-        ${dayzero_list.user.email}
+        ${request.context.user.email}
     % endif
 </%def>
 

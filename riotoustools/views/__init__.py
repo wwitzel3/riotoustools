@@ -15,7 +15,7 @@ from riotoustools.models.user import User
 from riotoustools.models.dayzero import DayZeroList
 from riotoustools.models.lifecal import LifeCal
 
-@view_config(renderer='index.mako', permission='view')
+@view_config(renderer='index.mako', permission='add')
 def index(request):
     return dict()
     

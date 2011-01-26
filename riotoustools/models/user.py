@@ -26,7 +26,7 @@ class Group(Base):
         
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False, unique=True)
-
+        
     @classmethod
     def group_creator(cls, name):
         try:
@@ -34,6 +34,12 @@ class Group(Base):
             return group
         except NoResultFound, e:
             return cls(name)
+
+    def __str__(self):
+        return 'Group(id={0}, name={1})'.format(self.id, self.name)
+                
+    def __repr__(self):
+        return self.__str__()
 
 class User(Base):
     __tablename__ = 'users'

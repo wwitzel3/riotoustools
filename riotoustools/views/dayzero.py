@@ -8,10 +8,10 @@ from pyramid.httpexceptions import HTTPFound
 from paste.deploy.converters import asbool
 
 from riotoustools.models import DBSession
-from riotoustools.models.root import Root, DayZeroContainer
+from riotoustools.models.root import _owned, Root, DayZeroContainer
 from riotoustools.models.dayzero import DayZeroList, DayZeroItem
 
-@view_config(name='create_dayzerolist', permission='view')
+@view_config(name='create_dayzerolist', permission='add')
 def create(request):
     dayzero_list = DayZeroList(name=request.params.get('name'))
     request.user.lists.append(dayzero_list)
@@ -21,13 +21,13 @@ def create(request):
         
 @view_config(renderer='dayzero_browse.mako', context=DayZeroContainer, permission='view')
 def browse(request):
-    return {'user': request.user, 'dayzero_lists':request.context}
+    return dict()
     
 @view_config(renderer='dayzero_show.mako', context=DayZeroList, permission='view')
 def show(request):
-    return {'user': request.user, 'dayzero_list':request.context}
+    return dict()
 
-@view_config(name='add', context=DayZeroList, permission='view', renderer="json", xhr=True)
+@view_config(name='add', context=DayZeroList, permission='add', renderer="json", xhr=True)
 def add(request):
     dayzero_list = request.context
     if request.user == dayzero_list.user:
@@ -48,7 +48,7 @@ def add(request):
             message='You do not have permissions to change this list.'
         )
 
-@view_config(name='edit', context=DayZeroList, permission='view', renderer='json', xhr=True)
+@view_config(name='edit', context=DayZeroList, permission='edit', renderer='json', xhr=True)
 def edit(request):
     dayzero_list = request.context
     if request.user == dayzero_list.user:
@@ -57,7 +57,7 @@ def edit(request):
     else:
         return dict()
 
-@view_config(name='remove', context=DayZeroItem, permission='view', renderer='json', xhr=True)
+@view_config(name='remove', context=DayZeroItem, permission='edit', renderer='json', xhr=True)
 def remove_item(request):
     dayzero_item = request.context
     if request.user == dayzero_item.dayzerolist.user:
@@ -71,7 +71,7 @@ def remove_item(request):
             message='You do not have permissions to modify this item'
         )
 
-@view_config(name='edit', context=DayZeroItem, permission='view', renderer='json')
+@view_config(name='edit', context=DayZeroItem, permission='edit', renderer='json')
 def edit_item(request):
     dayzero_item = request.context
     

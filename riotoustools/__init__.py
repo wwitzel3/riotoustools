@@ -21,7 +21,6 @@ def install_data():
     
     user = User('admin@example.com', 'password', 'Admin')
     user.groups.append('admin')
-    user.groups.append('view')
     
     dayzerolist = DayZeroList('My First List')
     for i in xrange(1,102):

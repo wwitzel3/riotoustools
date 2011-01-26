@@ -20,7 +20,8 @@ class Root(ordereddict.OrderedDict):
     __parent__ = None
     
     __acl__ = [
-        (Allow, Authenticated, ALL_PERMISSIONS),
+        (Allow, Authenticated, ('add', 'edit')),
+        (Allow, Everyone, 'view'),
         (Deny, Everyone, ALL_PERMISSIONS),
     ]
     
@@ -53,7 +54,10 @@ class LifeCalContainer(ModelContainer):
     pass
 
 class UserContainer(ModelContainer):
-    pass
+    __acl__ = [
+        (Allow, 'admin', ('add', 'edit', 'delete', 'view')),
+        (Deny, Everyone, ALL_PERMISSIONS),
+    ]
        
 def root_factory_maker():
     return Root
