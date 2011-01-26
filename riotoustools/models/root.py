@@ -20,8 +20,8 @@ class Root(ordereddict.OrderedDict):
     __parent__ = None
     
     __acl__ = [
-        (Allow, Authenticated, ('add', 'edit')),
         (Allow, Everyone, 'view'),
+        (Allow, Authenticated, ('add', 'edit')),
         (Deny, Everyone, ALL_PERMISSIONS),
     ]
     
@@ -29,7 +29,6 @@ class Root(ordereddict.OrderedDict):
         ordereddict.OrderedDict.__init__(self)
         self.request = request
         
-        self['dayzeroitem'] = _owned(DayZeroItemContainer(cls=DayZeroItem), 'dayzeroitem', self)
         self['dayzero'] = _owned(DayZeroContainer(cls=DayZeroList), 'dayzero', self)
         self['lifecal'] = _owned(LifeCalContainer(cls=LifeCal), 'lifecal', self)
         self['users'] = _owned(UserContainer(cls=User), 'users', self)
@@ -37,6 +36,7 @@ class Root(ordereddict.OrderedDict):
 class ModelContainer(object):
     def __init__(self, cls):
         self.cls = cls
+        
     def __getitem__(self, k):
         return _owned(DBSession().query(self.cls).filter_by(id=k).one(), str(k), self)
     def __len__(self):

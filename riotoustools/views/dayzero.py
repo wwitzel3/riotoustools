@@ -48,8 +48,8 @@ def add(request):
             message='You do not have permissions to change this list.'
         )
 
-@view_config(name='edit', context=DayZeroList, permission='edit', renderer='json')
-def edit_item(request):
+@view_config(name='edit', context=DayZeroList, permission='edit', renderer='json', xhr=True)
+def edit(request):
     dayzero_list = request.context
 
     if request.user == dayzero_list.user:

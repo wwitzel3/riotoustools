@@ -19,4 +19,4 @@ class RequestWithUserAttribute(Request):
         if userid is not None:
             return DBSession().query(User).get(userid)
         return None
-        
+

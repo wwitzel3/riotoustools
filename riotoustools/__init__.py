@@ -14,7 +14,8 @@ from riotoustools.models.user import User, Group
 from riotoustools.models.dayzero import DayZeroList, DayZeroItem
 from riotoustools.models.lifecal import LifeCal
 
-from riotoustools.security import RequestWithUserAttribute, groupfinder
+from riotoustools.security import RequestWithUserAttribute
+from riotoustools.security import groupfinder
 
 def install_data():
     session = DBSession()

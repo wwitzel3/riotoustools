@@ -25,7 +25,7 @@
 </div>
 
 % if request.context.user == request.user:
-    <input type="hidden" name="day-zero-item-add-action" value="${request.resource_url(request.context)}/add" />
+    <input type="hidden" name="day-zero-item-add-action" value="${request.resource_url(request.context)}add" />
 % endif
 
 <ol id="day-zero-list" start="0">
