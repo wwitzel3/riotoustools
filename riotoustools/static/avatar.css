@@ -1,0 +1,12 @@
+.avatar {
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    margin-top: 10px;
+}
+
+.avatar-image {
+    display: block;
+    width: 100px;
+    height: 100px;
+}
