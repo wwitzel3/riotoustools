@@ -10,15 +10,15 @@
 </li>
 <li>    
     <label class="day-zero-label">Name:</label>
-    <p class="inline-block day-zero-item-text ${'editable' if request.context.user == request.user else ''}">${request.context.name}</p>
+    <p class="inline-block day-zero-item-text ${'editable' if owner else ''}">${request.context.name}</p>
 </li>
 <li>
     <label class="day-zero-label">Start Date:</label>
-    <p class="inline-block ${'editable' if request.context.user == request.user else ''}">${request.context.start_at.strftime('%Y.%m.%d')}</p>
+    <p class="inline-block ${'editable' if owner else ''}">${request.context.start_at.strftime('%Y.%m.%d')}</p>
 </li>
 <li>
     <label class="day-zero-label">Finish Date:</label>
-    <p class="inline-block ${'editable' if request.context.user == request.user else ''}">${request.context.end_at.strftime('%Y.%m.%d')}</p>
+    <p class="inline-block ${'editable' if owner else ''}">${request.context.end_at.strftime('%Y.%m.%d')}</p>
 </li>
 </ol>
 </fieldset>
@@ -28,8 +28,11 @@
     <input type="hidden" name="day-zero-item-add-action" value="${request.resource_url(request.context)}add" />
 % endif
 
-<ol id="day-zero-list" start="0">
+<ol id="day-zero-list" start="${0 if owner else 1}">
+    % if owner:
     <li class="hover new"><span class="notice">Click here to add a new item</span></li>
+    % endif
+    
     % for i, item in enumerate(request.context.items):
     <li class="day-zero-item">
         <div class="day-zero-item-container">
@@ -38,7 +41,7 @@
             <input type="hidden" name="item_id" value="${item.id}" />
             <p class="day-zero-item-text ${'editable' if request.context.user == request.user else ''} ${'item-complete' if item.completed else ''}">${item.description}</p>
             <div class="day-zero-item-buttons">
-                % if request.context.user == request.user:
+                % if owner:
                 <input class="button edit" type="image" src="/static/icons/pencil.png" />
                 <input class="button accept" type="image" src="/static/icons/accept.png" />
                 <input class="button remove" type="image" src="/static/icons/delete.png" />
@@ -48,7 +51,7 @@
                 <p class="day-zero-item-description ${'multi-editable' if request.context.user == request.user else ''}">
                 % if item.long_description:
                     ${item.long_description}
-                % elif request.context.user == request.user:
+                % elif owner:
                     <span class="notice">Double-click to enter a long description</span>
                 % endif
                 </p>

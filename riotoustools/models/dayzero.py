@@ -1,5 +1,7 @@
 import datetime
 
+from pyramid.security import Allow
+
 from sqlalchemy import Integer
 from sqlalchemy import Boolean
 from sqlalchemy import Date
@@ -11,7 +13,6 @@ from sqlalchemy import Column
 from sqlalchemy import and_
 
 from sqlalchemy.orm import relation
-
 from riotoustools.models import Base
 
 class DayZeroList(Base):
@@ -28,6 +29,12 @@ class DayZeroList(Base):
     end_at = Column(Date, default=datetime.datetime.now() + datetime.timedelta(days=1001))
     
     items = relation('DayZeroItem', backref='dayzerolist')
+
+    @property
+    def __acl__(self):
+        return [
+            (Allow, 'owner:{0}'.format(self.user.id), ('add', 'edit'))
+        ]
 
 
 class DayZeroItem(Base):

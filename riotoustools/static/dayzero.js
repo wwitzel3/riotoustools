@@ -13,8 +13,9 @@ $.template('notcompleted-template', [
 $.template('item-template', [
     '<li style="display:none" class="day-zero-item new">',
     '<div class="day-zero-item-container">',
-    '<form class="inline-block" name="day-zero-item-form" action="/dayzeroitem/${id}">',
+    '<form class="inline-block" name="day-zero-item-form" action="/dayzero/${id}/">',
     '<input type="hidden" name="completed" value="${completed}" />',
+    '<input type="hidden" name="item_id" value="${item_id}" />',
     '<p class="day-zero-item-text editable">${description}</p>',
     '<div class="day-zero-item-buttons">',
     '<input class="button edit" type="image" src="/static/icons/pencil.png" />',

@@ -5,6 +5,9 @@ from pyramid.view import view_config
 from pyramid.url import static_url, resource_url
 from pyramid.httpexceptions import HTTPFound
 
+from pyramid.security import ACLAllowed
+from pyramid.security import has_permission
+
 from paste.deploy.converters import asbool
 
 from riotoustools.models import DBSession
@@ -25,9 +28,11 @@ def browse(request):
     
 @view_config(renderer='dayzero_show.mako', context=DayZeroList, permission='view')
 def show(request):
-    return dict()
+    return dict(
+        owner = has_permission('edit', request.context, request).boolval
+    )
 
-@view_config(name='add', context=DayZeroList, permission='add', renderer="json", xhr=True)
+@view_config(name='add', context=DayZeroList, permission='edit', renderer="json", xhr=True)
 def add(request):
     dayzero_list = request.context
     if request.user == dayzero_list.user:
@@ -36,7 +41,8 @@ def add(request):
         DBSession().flush()
         
         return dict(
-            id=dayzero_item.id,
+            id=dayzero_list.id,
+            item_id=dayzero_item.id,
             status=1,
             created_at=dayzero_item.created_at.strftime('%Y.%m.%d %H:%M'),
             completed=dayzero_item.completed,
@@ -84,7 +90,7 @@ def edit(request):
         )
 
 @view_config(name='remove', context=DayZeroList, permission='edit', renderer='json', xhr=True)
-def remove_item(request):
+def remove(request):
     dayzero_list = request.context
     if request.user == dayzero_list.user:
         session = DBSession()

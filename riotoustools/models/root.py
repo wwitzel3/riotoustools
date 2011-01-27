@@ -1,6 +1,7 @@
 from pyramid.security import Allow, Deny
 from pyramid.security import Authenticated, Everyone
 from pyramid.security import ALL_PERMISSIONS
+from pyramid.security import unauthenticated_userid
 
 import ordereddict
 
@@ -14,14 +15,13 @@ def _owned(obj, name, parent):
     obj.__name__ = name
     obj.__parent__ = parent
     return obj
-    
+
 class Root(ordereddict.OrderedDict):
     __name__ = None
     __parent__ = None
     
     __acl__ = [
         (Allow, Everyone, 'view'),
-        (Allow, Authenticated, ('add', 'edit')),
         (Deny, Everyone, ALL_PERMISSIONS),
     ]
     
@@ -29,13 +29,14 @@ class Root(ordereddict.OrderedDict):
         ordereddict.OrderedDict.__init__(self)
         self.request = request
         
-        self['dayzero'] = _owned(DayZeroContainer(cls=DayZeroList), 'dayzero', self)
-        self['lifecal'] = _owned(LifeCalContainer(cls=LifeCal), 'lifecal', self)
-        self['users'] = _owned(UserContainer(cls=User), 'users', self)
+        self['dayzero'] = _owned(DayZeroContainer(request, cls=DayZeroList), 'dayzero', self)
+        self['lifecal'] = _owned(LifeCalContainer(request, cls=LifeCal), 'lifecal', self)
+        self['users'] = _owned(UserContainer(request, cls=User), 'users', self)
         
 class ModelContainer(object):
-    def __init__(self, cls):
+    def __init__(self, request, cls):
         self.cls = cls
+        self.request = request
         
     def __getitem__(self, k):
         return _owned(DBSession().query(self.cls).filter_by(id=k).one(), str(k), self)
@@ -45,11 +46,8 @@ class ModelContainer(object):
         return (_owned(x, str(x.id), self) for x in DBSession().query(self.cls))
         
 class DayZeroContainer(ModelContainer):
-    pass
+    pass        
 
-class DayZeroItemContainer(ModelContainer):
-    pass
-        
 class LifeCalContainer(ModelContainer):
     pass
 
