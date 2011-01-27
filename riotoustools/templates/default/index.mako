@@ -1,4 +1,4 @@
-<%inherit file="base.mako"/>
+<%inherit file="../base.mako"/>
 
 <div id="center-content">
     <h4>Welcome</h4>

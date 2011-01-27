@@ -9,11 +9,11 @@ from riotoustools.models import DBSession
 from riotoustools.models.root import LifeCalContainer
 from riotoustools.models.lifecal import LifeCal
     
-@view_config(renderer='lifecal_browse.mako', context=LifeCalContainer, permission='view')
+@view_config(renderer='lifecal/browse.mako', context=LifeCalContainer, permission='view')
 def browse(request):
     return {'lifecal_list':request.context}
     
-@view_config(renderer='lifecal_show.mako', context=LifeCal, permission='view')
+@view_config(renderer='lifecal/show.mako', context=LifeCal, permission='view')
 def show(request):
     year = calendar.HTMLCalendar().formatyear(2010)
     return {'lifecal':request.context, 'calendar': year}

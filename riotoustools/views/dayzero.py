@@ -13,25 +13,25 @@ from paste.deploy.converters import asbool
 from riotoustools.models import DBSession
 from riotoustools.models.root import Root, DayZeroContainer
 from riotoustools.models.dayzero import DayZeroList, DayZeroItem
+        
+@view_config(renderer='dayzero/browse.mako', context=DayZeroContainer, permission='view')
+def browse(request):
+    return dict()
+    
+@view_config(renderer='dayzero/show.mako', context=DayZeroList, permission='view')
+def show(request):
+    return dict(
+        owner = has_permission('edit', request.context, request).boolval
+    )
 
 @view_config(name='create_dayzerolist', permission='add')
 def create(request):
     dayzero_list = DayZeroList(name=request.params.get('name'))
     request.user.lists.append(dayzero_list)
     DBSession().flush()
-    
+
     return HTTPFound(location = resource_url(Root(request)['dayzero'], request, str(dayzero_list.id)))
         
-@view_config(renderer='dayzero_browse.mako', context=DayZeroContainer, permission='view')
-def browse(request):
-    return dict()
-    
-@view_config(renderer='dayzero_show.mako', context=DayZeroList, permission='view')
-def show(request):
-    return dict(
-        owner = has_permission('edit', request.context, request).boolval
-    )
-
 @view_config(name='add', context=DayZeroList, permission='edit', renderer="json", xhr=True)
 def add(request):
     dayzero_list = request.context

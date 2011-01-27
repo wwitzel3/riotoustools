@@ -7,6 +7,6 @@ from riotoustools.models import DBSession
 from riotoustools.models.root import UserContainer
 from riotoustools.models.user import User
     
-@view_config(renderer='users_browse.mako', context=UserContainer, permission='view')
+@view_config(renderer='admin/users_browse.mako', context=UserContainer, permission='view')
 def browse(request):
     return dict()

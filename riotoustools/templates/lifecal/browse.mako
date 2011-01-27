@@ -1,4 +1,4 @@
-<%inherit file="base.mako"/>
+<%inherit file="../base.mako"/>
 
 <div id="center-content">
 <h3>Click a calendar to view it!</h3>

@@ -15,17 +15,17 @@ from riotoustools.models.user import User
 from riotoustools.models.dayzero import DayZeroList
 from riotoustools.models.lifecal import LifeCal
 
-@view_config(renderer='index.mako', permission='view')
+@view_config(renderer='default/index.mako', permission='view')
 def index(request):
     if not request.user:
         raise Forbidden
     return dict()
     
-@view_config(name='about', renderer='about.mako')
+@view_config(name='about', renderer='default/about.mako')
 def about(request):
     return dict()
     
-@view_config(renderer='login.mako', context=Forbidden)
+@view_config(renderer='default/login.mako', context=Forbidden)
 def login(request):
     message = ''
     next = request.params.get('next')
