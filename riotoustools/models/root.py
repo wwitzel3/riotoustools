@@ -22,6 +22,7 @@ class Root(ordereddict.OrderedDict):
     
     __acl__ = [
         (Allow, Everyone, 'view'),
+        (Allow, Authenticated, 'logged_in'),
         (Deny, Everyone, ALL_PERMISSIONS),
     ]
     

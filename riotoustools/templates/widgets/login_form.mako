@@ -1,5 +1,5 @@
 <div id="login-form" class="login-forms">
-    <form name='login' action='${request.resource_url(request.context)}' method='post'>
+    <form name='login' action='${request.resource_url(request.context)}login' method='post'>
     <fieldset>
     <legend>Login</legend>
     <ol>

@@ -22,10 +22,8 @@ from riotoustools.models.lifecal import LifeCal
 from riotoustools.schema.default import UserSignupSchema
 from riotoustools.schema.default import UserLoginSchema
 
-@view_config(renderer='default/index.mako', permission='view')
+@view_config(renderer='default/index.mako')
 def index(request):
-    if not request.user:
-        raise Forbidden
     return dict()
     
 @view_config(name='about', renderer='default/about.mako')
@@ -39,12 +37,16 @@ def forbidden(request):
         message='Whoa, whoa, whoa, pump the breaks sports fan.'
     )
 
-@view_config(renderer='default/login.mako', context=Forbidden)
+@view_config(name='login', permission='logged_in')
 def login(request):
+    return HTTPFound(location=resource_url(request.root, request))
+
+@view_config(renderer='default/login.mako', context=Forbidden)
+def present_login(request):
     message = ''
     next = request.params.get('next')
     if next and len(next) > 1:
-        next = Root(request)[next[1:]]
+        next = Root(request).get(next[1:], request.root)
     else:
         next = request.root
     request.next = next

@@ -27,6 +27,11 @@ ${self.head_js()}
                 <li><a href="/dayzero">Browse Lists</a></li>
                 <li><a href="/lifecal">View Calendar</a></li>
                 <li><a href="/about">About</a></li>
+                % if request.user:
+                <li><a href="${request.resource_url(request.context)}logout">Logout</a></li>
+                % else:
+                <li><a href="${request.resource_url(request.context)}login">Login</a></li>
+                % endif
             </ul>
             </div>
         </div>
