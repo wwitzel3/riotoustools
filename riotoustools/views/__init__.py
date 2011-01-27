@@ -25,6 +25,13 @@ def index(request):
 def about(request):
     return dict()
     
+@view_config(renderer='json', context=Forbidden, xhr=True)
+def forbidden(request):
+    return dict(
+        status=0,
+        message='Whoa, whoa, whoa, pump the breaks sports fan.'
+    )
+
 @view_config(renderer='default/login.mako', context=Forbidden)
 def login(request):
     message = ''

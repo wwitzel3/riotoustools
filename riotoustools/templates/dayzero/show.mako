@@ -3,7 +3,7 @@
 <div id="center-content"> 
 <div class="day-zero-list-info">
 <fieldset>
-<ol>
+<ol class="inline-block">
 <li>
     <label class="day-zero-label">Owner:</label>
     <p class="inline-block day-zero-info-owner">${owner_name()}</p>
@@ -21,6 +21,14 @@
     <p class="inline-block ${'editable' if owner else ''}">${request.context.end_at.strftime('%Y.%m.%d')}</p>
 </li>
 </ol>
+
+<div class="avatar">
+    <img class="avatar-image" src="${gravatar_url}" />
+    % if owner:
+    <a href="http://gravatar.com">wanna change this?</a>
+    % endif
+</div>
+
 </fieldset>
 </div>
 
@@ -68,7 +76,7 @@
         </div>
     </li>
     % endfor
-    % if len(request.context.items) >= 1:
+    % if owner and len(request.context.items) >= 1:
         <li class="hover new"><span class="notice">Click here to add a new item</span></li>
     % endif
 </ol>
@@ -89,5 +97,6 @@
 
 
 <%def name='head_css()'>
-<link href="/static/dayzero.css" rel="stylesheet" type="text/css" /> 
+<link href="${request.static_url('riotoustools:static/dayzero.css')}" rel="stylesheet" type="text/css" /> 
+<link href="${request.static_url('riotoustools:static/avatar.css')}" rel="stylesheet" type="text/css" /> 
 </%def>

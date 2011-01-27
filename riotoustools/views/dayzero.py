@@ -4,6 +4,7 @@ from pyramid.response import Response
 from pyramid.view import view_config
 from pyramid.url import static_url, resource_url
 from pyramid.httpexceptions import HTTPFound
+from pyramid.renderers import render_to_response
 
 from pyramid.security import ACLAllowed
 from pyramid.security import has_permission
@@ -13,15 +14,19 @@ from paste.deploy.converters import asbool
 from riotoustools.models import DBSession
 from riotoustools.models.root import Root, DayZeroContainer
 from riotoustools.models.dayzero import DayZeroList, DayZeroItem
-        
+
+from riotoustools.lib import gravatar
+
 @view_config(renderer='dayzero/browse.mako', context=DayZeroContainer, permission='view')
 def browse(request):
+    return render_to_response('dayzero/browse.mako', dict(), request=request)
     return dict()
     
 @view_config(renderer='dayzero/show.mako', context=DayZeroList, permission='view')
 def show(request):
     return dict(
-        owner = has_permission('edit', request.context, request).boolval
+        owner = has_permission('edit', request.context, request).boolval,
+        gravatar_url = gravatar.get_url_from_email(request),
     )
 
 @view_config(name='create_dayzerolist', permission='add')
@@ -31,7 +36,7 @@ def create(request):
     DBSession().flush()
 
     return HTTPFound(location = resource_url(Root(request)['dayzero'], request, str(dayzero_list.id)))
-        
+
 @view_config(name='add', context=DayZeroList, permission='edit', renderer="json", xhr=True)
 def add(request):
     dayzero_list = request.context
