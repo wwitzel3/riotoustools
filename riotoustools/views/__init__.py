@@ -19,7 +19,8 @@ from riotoustools.models.user import User
 from riotoustools.models.dayzero import DayZeroList
 from riotoustools.models.lifecal import LifeCal
 
-from riotoustools.forms.default import UserSignupSchema
+from riotoustools.schema.default import UserSignupSchema
+from riotoustools.schema.default import UserLoginSchema
 
 @view_config(renderer='default/index.mako', permission='view')
 def index(request):
@@ -54,16 +55,13 @@ def login(request):
     
     if 'form.login' in request.params:
         try:
-            email = request.params.get('email')
-            password = request.params.get('password')
-            user = (DBSession().query(User).
-                 filter_by(email=email).
-                 filter_by(password=password).one())
-            headers = remember(request, user.id)
+            clean_data = UserLoginSchema().to_python(request.params)
+            headers = remember(request, clean_data['user_id'])
             return HTTPFound(location=resource_url(request.next, request),
                           headers=headers)
-        except NoResultFound, e:
-            request.session.flash('Invalid email and/or password.')
+        except Invalid, e:
+            e.value['password'] = ''
+            login_form = htmlfill.render(login_form, e.value, e.error_dict or {})
             
     elif 'form.create' in request.params:
         try:

@@ -2,8 +2,18 @@ from formencode import Schema
 from formencode import Invalid
 from formencode import validators as v
 
-from riotoustools.forms.validators import UniqueEmail
+from riotoustools.schema.validators import UniqueEmail
+from riotoustools.schema.validators import ValidUser
+
+class UserLoginSchema(Schema):
+    allow_extra_fields = True
+    email = v.Email(resolve_domain=False, not_empty=True)
+    password = v.String(not_empty=True)
     
+    chained_validators = [
+        ValidUser(),
+    ]
+
 class UserSignupSchema(Schema):
     '''
     Validate the user sign up form. Works with UniqueEmail

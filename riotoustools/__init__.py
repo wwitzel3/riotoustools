@@ -53,7 +53,6 @@ def main(global_config, **settings):
                           session_factory=session_factory)
     config.add_static_view('static', 'riotoustools:static')
     config.scan('riotoustools.models')
-    #config.scan('riotoustools.forms')
     config.scan('riotoustools.views')
     
     #install_data()
