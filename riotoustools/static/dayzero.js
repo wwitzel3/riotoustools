@@ -56,7 +56,7 @@ $('.accept').live('click', function(o) {
     else
         completed.val('True');
         
-    $.post(form.attr('action')+'/edit', form.serialize(), function(data) {
+    $.post(form.attr('action')+'edit', form.serialize(), function(data) {
         if (data.status) {
             var item_long_text = $(container).find('.day-zero-item-longtext');
             if (data.completed)
