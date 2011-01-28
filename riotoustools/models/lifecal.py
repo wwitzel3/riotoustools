@@ -13,3 +13,5 @@ class LifeCal(Base):
     
     id = Column(Integer, primary_key=True)
     owner_id = Column(Integer, ForeignKey('users.id'))
+    
+

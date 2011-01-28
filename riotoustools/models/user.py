@@ -44,7 +44,7 @@ class Group(Base):
 class User(Base):
     __tablename__ = 'users'
     
-    def __init__(self, email, password, name=None):
+    def __init__(self, email, password, name):
         self.email = email
         self.password = password
         self.name = name

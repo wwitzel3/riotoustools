@@ -19,14 +19,12 @@ from riotoustools.lib import gravatar
 
 @view_config(renderer='dayzero/browse.mako', context=DayZeroContainer, permission='view')
 def browse(request):
-    return render_to_response('dayzero/browse.mako', dict(), request=request)
     return dict()
     
 @view_config(renderer='dayzero/show.mako', context=DayZeroList, permission='view')
 def show(request):
     return dict(
-        owner = has_permission('edit', request.context, request).boolval,
-        gravatar_url = gravatar.get_url_from_email(request),
+        owner = has_permission('edit', request.context, request).boolval
     )
 
 @view_config(name='create_dayzerolist', permission='add')
@@ -40,73 +38,50 @@ def create(request):
 @view_config(name='add', context=DayZeroList, permission='edit', renderer="json", xhr=True)
 def add(request):
     dayzero_list = request.context
-    if request.user == dayzero_list.user:
-        dayzero_item = DayZeroItem(description=request.params.get('description'))
-        dayzero_list.items.append(dayzero_item)
-        DBSession().flush()
-        
-        return dict(
-            id=dayzero_list.id,
-            item_id=dayzero_item.id,
-            status=1,
-            created_at=dayzero_item.created_at.strftime('%Y.%m.%d %H:%M'),
-            completed=dayzero_item.completed,
-            description=dayzero_item.description
-        )
-    else:
-        return dict(
-            status=0,
-            message='You do not have permissions to change this list.'
-        )
+    dayzero_item = DayZeroItem(description=request.params.get('description'))
+    dayzero_list.items.append(dayzero_item)
 
-@view_config(name='edit', context=DayZeroList, permission='edit', renderer='json', xhr=True)
+    DBSession().flush()
+    
+    return dict(
+        id=dayzero_list.id,
+        item_id=dayzero_item.id,
+        status=1,
+        created_at=datetime.datetime.now().strftime('%Y.%m.%d %H:%M'),
+        completed=dayzero_item.completed,
+        description=dayzero_item.description
+    )
+
+@view_config(name='edit', context=DayZeroItem, permission='edit', renderer='json', xhr=True)
 def edit(request):
-    dayzero_list = request.context
+    item = request.context
+    if request.params.get('description'):
+        item.description = request.params.get('description')
 
-    if request.user == dayzero_list.user:
-        dayzero_item = DBSession().query(DayZeroItem).get(request.params.get('item_id'))
+    if request.params.get('long_description'):
+        item.long_description = request.params.get('long_description')
 
-        if request.params.get('description'):
-            dayzero_item.description = request.params.get('description')
-
-        if request.params.get('long_description'):
-            dayzero_item.long_description = request.params.get('long_description')
-
-        completed = asbool(request.params.get('completed'))
-        if completed:
-            dayzero_item.completed = True
-            dayzero_item.completed_at = datetime.datetime.now()
-        else:
-            dayzero_item.completed = False
-            dayzero_item.completed_at = None
-
-        return dict(
-            status=1,
-            created_at=dayzero_item.created_at.strftime('%Y.%m.%d %H:%M'),
-            completed=dayzero_item.completed,
-            completed_at=dayzero_item.completed_at.strftime('%Y.%m.%d %H:%M') if dayzero_item.completed else None,
-            description=dayzero_item.description,
-            long_description=dayzero_item.long_description
-        )
+    completed = asbool(request.params.get('completed'))
+    if completed:
+        item.completed = True
+        item.completed_at = datetime.datetime.now()
     else:
-        return dict(
-            status=0,
-            message='You do not have permissions to change this list.'
-        )
+        item.completed = False
+        item.completed_at = None
 
-@view_config(name='remove', context=DayZeroList, permission='edit', renderer='json', xhr=True)
+    return dict(
+        status=1,
+        created_at=item.created_at.strftime('%Y.%m.%d %H:%M'),
+        completed=item.completed,
+        completed_at=item.completed_at.strftime('%Y.%m.%d %H:%M') if item.completed else None,
+        description=item.description,
+        long_description=item.long_description
+    )
+
+@view_config(name='remove', context=DayZeroItem, permission='edit', renderer='json', xhr=True)
 def remove(request):
-    dayzero_list = request.context
-    if request.user == dayzero_list.user:
-        session = DBSession()
-        item = session.query(DayZeroItem).get(request.params.get('item_id'))
-        session.delete(item)
-        return dict(
-            status=1
-        )
-    else:
-        return dict(
-            status=0,
-            message='You do not have permissions to modify this item'
-        )
+    DBSession().delete(request.context)
+    return dict(
+        status=1
+    )
 

@@ -1,4 +1,5 @@
 <%inherit file="../base.mako"/>
+<%namespace file="../widgets/avatar.mako" import="avatar"/>
 
 <div id="center-content"> 
 <div class="day-zero-list-info">
@@ -22,12 +23,7 @@
 </li>
 </ol>
 
-<div class="avatar">
-    <img class="avatar-image" src="${gravatar_url}" />
-    % if owner:
-    <a href="http://gravatar.com">wanna change this?</a>
-    % endif
-</div>
+${avatar(request)}
 
 </fieldset>
 </div>
@@ -44,7 +40,7 @@
     % for i, item in enumerate(request.context.items):
     <li class="day-zero-item">
         <div class="day-zero-item-container">
-            <form class="inline-block" name="day-zero-item-form" action="${request.resource_url(request.context)}">
+            <form class="inline-block" name="day-zero-item-form" action="${request.resource_url(request.root)}dayzeroitem/${item.id}/">
             <input type="hidden" name="completed" value="${item.completed}" />
             <input type="hidden" name="item_id" value="${item.id}" />
             <p class="day-zero-item-text ${'editable' if request.context.user == request.user else ''} ${'item-complete' if item.completed else ''}">${item.description}</p>

@@ -1,4 +1,9 @@
+<%def name="avatar(request)">
+<%
+    from riotoustools.lib import gravatar
+%>
 <div class="avatar">
-    <img src="${image_path()}" width="100px" height="100px" />
-    <a href="#">change me</a>
+    <img src="${gravatar.get_url_from_email(request)}" width="100px" height="100px" />
+    <a href="http://gravatar.com">change me</a>
 </div>
+</%def>
