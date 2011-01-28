@@ -3,24 +3,19 @@ import datetime
 from tests import *
 
 from riotoustools import models
-
 from riotoustools.views import dayzero
 from riotoustools.models.root import Root
 from riotoustools.models.user import User
-
 from riotoustools.models.dayzero import DayZeroList
 from riotoustools.models.dayzero import DayZeroItem
 
-class DayZeroRequestTest(TestCase):
-    pass
+from riotoustools import main
 
 class DayZeroViewTest(TestCase):
     
     def setUp(self):
         self.list_name = 'Default'
         self.dayzero_list = DayZeroList(self.list_name)
-        
-        self.request = testing.DummyRequest()
         self.user = User('user@example.com', 'password', 'user')
 
     def tearDown(self):

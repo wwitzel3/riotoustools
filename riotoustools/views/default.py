@@ -13,7 +13,6 @@ from sqlalchemy.orm.exc import NoResultFound
 from formencode import Invalid
 from formencode import htmlfill
 
-from riotoustools.models import DBSession
 from riotoustools.models.root import Root
 from riotoustools.models.user import User
 from riotoustools.models.dayzero import DayZeroList
@@ -22,11 +21,11 @@ from riotoustools.models.lifecal import LifeCal
 from riotoustools.schema.default import UserSignupSchema
 from riotoustools.schema.default import UserLoginSchema
 
-@view_config(renderer='default/index.mako')
+@view_config(context=Root, renderer='default/index.mako')
 def index(request):
     return dict()
     
-@view_config(name='about', renderer='default/about.mako')
+@view_config(name='about', context=Root, renderer='default/about.mako')
 def about(request):
     return dict()
     
@@ -82,9 +81,8 @@ def present_login(request):
             user.lists.append(DayZeroList('Default'))
             user.calendar.append(LifeCal())
 
-            session = DBSession()
-            session.add(user)
-            session.flush()
+            request.db.add(user)
+            request.db.flush()
 
             headers = remember(request, user.id)
             return HTTPFound(location=resource_url(request.root, request),
