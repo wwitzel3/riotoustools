@@ -14,9 +14,13 @@ def groupfinder(userid, request):
     
 class RequestWithUserAttribute(Request):
     @reify
+    def db(self):
+        return DBSession()
+        
+    @reify
     def user(self):
         userid = unauthenticated_userid(self)
         if userid is not None:
-            return DBSession().query(User).get(userid)
+            return self.db.query(User).get(userid)
         return None
     

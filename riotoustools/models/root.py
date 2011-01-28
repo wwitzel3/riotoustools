@@ -4,10 +4,11 @@ from pyramid.security import ALL_PERMISSIONS
 
 import ordereddict
 
-from riotoustools.models import DBSession
 from riotoustools.models.dayzero import DayZeroList
 from riotoustools.models.dayzero import DayZeroItem
 from riotoustools.models.lifecal import LifeCal
+
+from riotoustools.models import DBSession
 from riotoustools.models.user import User
 
 def _owned(obj, name, parent):

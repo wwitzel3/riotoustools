@@ -31,7 +31,7 @@ def show(request):
 def create(request):
     dayzero_list = DayZeroList(name=request.params.get('name'))
     request.user.lists.append(dayzero_list)
-    DBSession().flush()
+    request.db.flush()
 
     return HTTPFound(location = resource_url(Root(request)['dayzero'], request, str(dayzero_list.id)))
 
@@ -41,7 +41,7 @@ def add(request):
     dayzero_item = DayZeroItem(description=request.params.get('description'))
     dayzero_list.items.append(dayzero_item)
 
-    DBSession().flush()
+    request.db.flush()
     
     return dict(
         id=dayzero_list.id,
@@ -80,7 +80,7 @@ def edit(request):
 
 @view_config(name='remove', context=DayZeroItem, permission='edit', renderer='json', xhr=True)
 def remove(request):
-    DBSession().delete(request.context)
+    request.db.delete(request.context)
     return dict(
         status=1
     )

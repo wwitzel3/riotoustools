@@ -11,10 +11,10 @@ from riotoustools.models.user import User
 from riotoustools.models.dayzero import DayZeroList
 from riotoustools.models.dayzero import DayZeroItem
 
-class DayZeroRequestTest(unittest.TestCase):
+class DayZeroRequestTest(TestCase):
     pass
 
-class DayZeroViewTest(unittest.TestCase):
+class DayZeroViewTest(TestCase):
     
     def setUp(self):
         self.list_name = 'Default'
@@ -34,6 +34,9 @@ class DayZeroViewTest(unittest.TestCase):
         self.assertTrue(response.has_key('owner'))
         
     def testDayZeroListAdd(self):
+        self.request.db = Mock('self.request.db')
+        mock('self.request.db.flush', tracker=self.tt, returns=True)
+        
         root = Root(self.request)
         self.request.user = self.user
         self.request.params = {'name':self.list_name}
@@ -42,6 +45,7 @@ class DayZeroViewTest(unittest.TestCase):
         self.assertEquals(len(self.request.user.lists), 1)
         self.assertEquals(self.request.user.lists[0].name, self.list_name)
         self.assertTrue('dayzero/None' in response.location)
+        self.assertTrace('Called self.request.db.flush()')
         
     def testDayZeroListEdit(self):
         self.request.context = DayZeroItem('name')
@@ -60,11 +64,18 @@ class DayZeroViewTest(unittest.TestCase):
         response = dayzero.edit(self.request)
         self.assertTrue(response.get('completed'))
         
-    def testDayZeroListItemRemove(self):        
+    def testDayZeroListItemRemove(self):
+        self.request.db = Mock('self.request.db')
+        mock('self.request.db.delete', tracker=self.tt, returns=True)
+        
         self.request.context = DayZeroItem('name')
+        self.request.context.id = 1
+        self.request.context.list_id = 1
         self.request.user = self.user
+        
         response = dayzero.remove(self.request)
         self.assertTrue(response.has_key('status'))
+        self.assertTrace('Called self.request.db.delete(DayZeroItem(id=1, list_id=1))')
         
     def testDayZeroContainer(self):
         root = Root(self.request)
@@ -73,13 +84,18 @@ class DayZeroViewTest(unittest.TestCase):
         self.assertEquals(response, dict())
         
     def testDayZeroListAddItem(self):
+        self.request.db = Mock('self.request.db')
+        mock('self.request.db.flush', tracker=self.tt, returns=True)
+        
         self.request.user = self.user
         self.request.params = dict(
             description='item'
         )
         self.request.context = self.dayzero_list
-
+        
         response = dayzero.add(self.request)
         
         self.assertEquals(response.get('description'), 'item')
         self.assertEquals(len(self.request.context.items), 1)
+        self.assertTrace('Called self.request.db.flush()')
+        

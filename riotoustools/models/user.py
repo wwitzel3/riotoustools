@@ -9,7 +9,7 @@ from sqlalchemy.orm import relation
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.ext.associationproxy import association_proxy
 
-from riotoustools.models import DBSession, Base
+from riotoustools.models import Base
 from riotoustools.models.dayzero import DayZeroList
 from riotoustools.models.lifecal import LifeCal
 

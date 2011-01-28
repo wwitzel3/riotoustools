@@ -29,7 +29,12 @@ class DayZeroList(Base):
     end_at = Column(Date, default=datetime.datetime.now() + datetime.timedelta(days=1001))
     
     items = relation('DayZeroItem', backref='dayzerolist')
-            
+
+    def __str__(self):
+        return 'DayZeroList(id={0}, owner_id={1})'.format(self.id, self.owner_id)
+    def __repr__(self):
+        return self.__str__()
+        
     @property
     def __acl__(self):
         return [
@@ -53,6 +58,11 @@ class DayZeroItem(Base):
     created_at = Column(DateTime, default=datetime.datetime.now())
     completed_at = Column(DateTime)
     
+    def __str__(self):
+        return 'DayZeroItem(id={0}, list_id={1})'.format(self.id, self.list_id)
+    def __repr__(self):
+        return self.__str__()
+        
     @property
     def __acl__(self):
         return [
