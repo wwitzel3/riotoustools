@@ -28,7 +28,7 @@ ${avatar(request)}
 </fieldset>
 </div>
 
-% if request.context.user == request.user:
+% if owner:
     <input type="hidden" name="day-zero-item-add-action" value="${request.resource_url(request.context)}add" />
 % endif
 
