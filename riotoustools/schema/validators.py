@@ -14,6 +14,7 @@ class ValidUser(v.FancyValidator):
                             email=values['email'],
                             password=values['password'])
                         .one())
+            print user
         except (NoResultFound), e:
             error = 'Invalid email and/or password.'
             raise Invalid(error, values, c, error_dict=dict(email=error))

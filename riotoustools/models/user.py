@@ -50,7 +50,7 @@ class User(Base):
         self.email = email
         self.password = password
         self.name = name
-        
+                
     id = Column(Integer, primary_key=True)
     email = Column(String, nullable=False, unique=True)
     password = Column(String, nullable=False)

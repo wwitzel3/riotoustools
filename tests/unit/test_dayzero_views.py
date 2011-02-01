@@ -60,7 +60,7 @@ class DayZeroViewTest(TestCase):
         self.assertTrue(response.get('completed'))
         
     def testDayZeroListItemRemove(self):
-        self.request.db = Mock('self.request.db')
+        self.request.db = Mock('self.request.db', tracker=self.tt)
         mock('self.request.db.delete', tracker=self.tt, returns=True)
         
         self.request.context = DayZeroItem('name')
