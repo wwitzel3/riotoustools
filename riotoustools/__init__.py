@@ -16,7 +16,7 @@ from riotoustools.security import groupfinder
 def main(global_config, **settings):
     """ This function returns a WSGI application.
     """
-        
+    
     # all your authz and authn belong to us
     authn_policy = AuthTktAuthenticationPolicy('riotous4321',
                                                 callback=groupfinder)
@@ -35,6 +35,7 @@ def main(global_config, **settings):
     
     # setup the databasage
     engine = engine_from_config(settings, 'sqlalchemy.')
+    print engine
     config.scan('riotoustools.models')
     initialize_sql(engine)
                           

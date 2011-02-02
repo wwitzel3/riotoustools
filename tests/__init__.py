@@ -9,20 +9,28 @@ from webtest import TestApp
 
 from pyramid import testing
 
+settings = {
+    'sqlalchemy.url':'sqlite:///riotoustools.test.db',
+    'mako.directories':'%(here)s/riotoustools/templates'
+}
+
 class TestCase(unittest.TestCase):
     def __init__(self, *args, **kw):
-        self.tt = TraceTracker()
+        super(TestCase, self).__init__(*args, **kw)
         
+        self.tt = TraceTracker()
         self.request = testing.DummyRequest()
         self.request.resource_url = None
-        mock('self.request.resource_url', tracker=self.tt, returns=True)
         
         self.config = testing.setUp(request=self.request)
-        self.config.add_settings({
-            'mako.directories':'%(here)s/riotoustools/templates'
-        })
+        self.config.add_settings(settings)
         
-        super(TestCase, self).__init__(*args, **kw)
+    def setUp(self, *args, **kw):
+        mock('self.request.resource_url', tracker=self.tt, returns=True)
+        
+    def tearDown(self):
+        restore()
+        
     def assertTrace(self, want):
         assert self.tt.check(want), self.tt.diff(want)
         
@@ -34,4 +42,5 @@ __all__ = [
     'testing',
     'TestApp',
     'TestCase',
+    'settings',
 ]

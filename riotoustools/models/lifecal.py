@@ -1,5 +1,7 @@
 import datetime
 
+from pyramid.security import Allow
+
 from sqlalchemy import Integer
 from sqlalchemy import Date
 from sqlalchemy import String
@@ -14,4 +16,11 @@ class LifeCal(Base):
     id = Column(Integer, primary_key=True)
     owner_id = Column(Integer, ForeignKey('users.id'))
     
-
+    def update(self, *args, **kwargs):
+        pass
+        
+    @property
+    def __acl__(self):
+        return [
+            (Allow, 'owner:{0}'.format(self.user.id), ('add', 'edit'))
+        ]

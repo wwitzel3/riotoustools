@@ -19,21 +19,22 @@ class MockDBTest(TestCase):
         self.mock_session = Mock('DBSession', returns=Mock('DBSession'), tracker=self.tt)
         self.mock_session().query = Mock('query', returns=Mock('query'), tracker=self.tt)
         self.mock_session().query().filter_by = Mock('filter_by', returns=Mock('filter_by'), tracker=self.tt)
-                
-        models.DBSession = self.mock_session
-        default.DBSession = self.mock_session
-        schema.validators.DBSession = self.mock_session
-    
+        
+    def setUp(self, *args, **kw):
+        super(MockDBTest, self).setUp(*args, **kw)       
+        mock('models.DBSession', returns_func=self.mock_session)
+        mock('models.user.DBSession', returns_func=self.mock_session)
+        mock('schema.validators.DBSession', returns_func=self.mock_session)
+        
+    def tearDown(self):
+        restore()
+        
 class DefaultViewTestValid(MockDBTest):
-    def __init__(self, *args, **kw):        
-        super(DefaultViewTestValid, self).__init__(*args, **kw)
         
-    def setUp(self):
-        self.mock_session().query().filter_by().one = Mock('one', self.user)
-        models.DBSession = self.mock_session
-        default.DBSession = self.mock_session
-        schema.validators.DBSession = self.mock_session
-        
+    def setUp(self, *args, **kw):     
+        super(DefaultViewTestValid, self).setUp(*args, **kw)
+        self.mock_session().query().filter_by().one = Mock('one', tracker=self.tt, returns=self.user)
+                
     def testPresentLoginValidLogin(self):
         self.request.params = {
             'form.login':True,
@@ -46,16 +47,14 @@ class DefaultViewTestValid(MockDBTest):
         self.assertEquals(response.location, 'http://example.com/dayzero/')
 
 class DefaultViewTestSignup(MockDBTest):
-    def setUp(self):
+        
+    def setUp(self, *args, **kw):
+        super(DefaultViewTestSignup, self).setUp(*args, **kw)
         from sqlalchemy.orm.exc import NoResultFound
         def one():
             raise NoResultFound
         self.mock_session().query().filter_by().one = one
-        
-        models.user.DBSession = self.mock_session
-        default.DBSession = self.mock_session
-        schema.validators.DBSession = self.mock_session
-        
+                
     def testPresentLoginValidSignup(self):                
         self.request.params = {
             'form.create': True,
@@ -69,6 +68,8 @@ class DefaultViewTestSignup(MockDBTest):
         self.assertEquals(response.location, 'http://example.com/')
         
 class DefaultViewTest(MockDBTest):
+    def setUp(self, *args, **kw):
+        super(DefaultViewTest, self).setUp(*args, **kw)
         
     def testIndexView(self):
         response = default.index(self.request)

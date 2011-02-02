@@ -21,14 +21,14 @@ class DayZeroViewTest(TestCase):
     def tearDown(self):
         pass
         
-    def testDayZeroListShow(self):
+    def test_dayzero_list_show(self):
         self.request.user = self.user
         self.request.context = self.dayzero_list
         self.request.context.user = self.user
         response = dayzero.show(self.request)
         self.assertTrue(response.has_key('owner'))
         
-    def testDayZeroListAdd(self):
+    def test_dayzero_list_add(self):
         self.request.db = Mock('self.request.db')
         mock('self.request.db.flush', tracker=self.tt, returns=True)
         
@@ -42,7 +42,7 @@ class DayZeroViewTest(TestCase):
         self.assertTrue('dayzero/None' in response.location)
         self.assertTrace('Called self.request.db.flush()')
         
-    def testDayZeroListEdit(self):
+    def test_dayzero_list_edit(self):
         self.request.context = DayZeroItem('name')
         self.request.context.created_at = datetime.datetime.now()
                 
