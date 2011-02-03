@@ -4,7 +4,7 @@ from pyramid.config import Configurator
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid_beaker import session_factory_from_settings
-
+from pyramid_beaker import set_cache_regions_from_settings
 from sqlalchemy import engine_from_config
 
 from riotoustools.models.root import root_factory_maker
@@ -22,8 +22,9 @@ def main(global_config, **settings):
                                                 callback=groupfinder)
     authz_policy = ACLAuthorizationPolicy()
     
-    # gimmie that Beaker session YO!
+    # gimmie that Beaker session and region caching YO!
     session_factory = session_factory_from_settings(settings)
+    set_cache_regions_from_settings(settings)
     
     # now make my app respect all of the stuff I just did
     config = Configurator(settings=settings,
@@ -35,7 +36,6 @@ def main(global_config, **settings):
     
     # setup the databasage
     engine = engine_from_config(settings, 'sqlalchemy.')
-    print engine
     config.scan('riotoustools.models')
     initialize_sql(engine)
                           
