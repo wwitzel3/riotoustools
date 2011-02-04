@@ -1,3 +1,4 @@
+import os
 import unittest
 
 from minimock import Mock
@@ -9,9 +10,16 @@ from webtest import TestApp
 
 from pyramid import testing
 
+from sqlalchemy import engine_from_config
+
+from riotoustools.models import Base
+from riotoustools.models import initialize_sql
+
+here = os.path.abspath(os.path.dirname(__file__))
+
 settings = {
     'sqlalchemy.url':'sqlite:///riotoustools.test.db',
-    'mako.directories':'%(here)s/riotoustools/templates'
+    'mako.directories':'{0}/../riotoustools/templates'.format(here)
 }
 
 class TestCase(unittest.TestCase):
@@ -27,13 +35,25 @@ class TestCase(unittest.TestCase):
         
     def setUp(self, *args, **kw):
         mock('self.request.resource_url', tracker=self.tt, returns=True)
-        
+
     def tearDown(self):
         restore()
         
     def assertTrace(self, want):
         assert self.tt.check(want), self.tt.diff(want)
         
+
+class SATestCase(unittest.TestCase):
+    def setUp(self):
+        self.engine = engine_from_config(settings, 'sqlalchemy.')
+        self.config = testing.setUp(request=testing.DummyRequest())
+        self.config.scan('riotoustools.models')
+        initialize_sql(self.engine)
+
+    def tearDown(self):
+        Base.metadata.drop_all(self.engine)
+        
+
 __all__ = [
     'unittest',
     'Mock',
@@ -42,5 +62,6 @@ __all__ = [
     'testing',
     'TestApp',
     'TestCase',
+    'SATestCase',
     'settings',
 ]
